@@ -17,7 +17,7 @@
         <Button Text="Left" HorizontalOptions="Start" VerticalOptions="Center" CornerRadius="50" Grid.Column="0" Grid.RowSpan="2" />
         <Button Text="Right" HorizontalOptions="End" VerticalOptions="Center" CornerRadius="50" Grid.Column="1" Grid.RowSpan="2" />
 
-        <Button Text="Gallery" HorizontalOptions="Center" VerticalOptions="End" CornerRadius="50" Grid.ColumnSpan="2" Grid.Row="2" />
+        <Button Text="Gallery" HorizontalOptions="Center" VerticalOptions="End" CornerRadius="50" Grid.ColumnSpan="2" Grid.Row="2" Clicked="OnGalleryClicked" />
     </Grid>
 
 </ContentPage>

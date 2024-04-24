@@ -6,6 +6,11 @@
         {
             InitializeComponent();
         }
+        public void OnGalleryClicked(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new Gallery());
+        }
+
 
 
     }
