@@ -11,6 +11,10 @@
             Navigation.PushAsync(new Gallery());
         }
 
+        private async void AddHolidayButtonClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new Add_Holiday());
+        }
 
 
     }
