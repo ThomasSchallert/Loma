@@ -63,6 +63,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Add_Holiday.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Gallery.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
