@@ -14,6 +14,26 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
+        <CarouselView ItemsLayout="HorizontalList">
+            <CarouselView.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>dotnet_bot.png</x:String>
+                    <x:String>testbild_strand.jpeg</x:String>
+                    <!-- Add more images as needed. -->
+                </x:Array>
+            </CarouselView.ItemsSource>
+
+            <CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <Image Aspect="AspectFit">
+                        <Image.Source>
+                            <Binding Path="." />
+                        </Image.Source>
+                    </Image>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+
         <Button Text="Left" HorizontalOptions="Start" VerticalOptions="Center" CornerRadius="50" Grid.Column="0" Grid.RowSpan="2" />
         <Button Text="Right" HorizontalOptions="End" VerticalOptions="Center" CornerRadius="50" Grid.Column="1" Grid.RowSpan="2" />
         <Button Text="+" HorizontalOptions="Center" VerticalOptions="Center" CornerRadius="50" Grid.ColumnSpan="2" Grid.Row="2" Clicked="AddHolidayButtonClicked" />

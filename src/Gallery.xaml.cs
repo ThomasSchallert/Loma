@@ -8,9 +8,6 @@ public partial class Gallery : ContentPage
 	{
         InitializeComponent();
         BackgroundColor = Color.FromArgb("#333333");
-        
-        
-
     }
     public async void addImage()
     {
