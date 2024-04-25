@@ -16,20 +16,20 @@ public partial class Gallery : ContentPage
     {
         try
         {
-            var result = await FilePicker.PickAsync(new PickOptions
+            var results = await FilePicker.PickMultipleAsync(new PickOptions
             {
-                PickerTitle = "Select an image"
+                PickerTitle = "Select images"
             });
 
-            if (result != null)
+            if (results != null)
             {
-                string filePath = result.FullPath;
-                string fileName = Path.GetFileName(filePath);
-                Image_gal image = new Image_gal("Description", filePath, fileName);
-                image.drawImage(galleryScrollView);
-
-
-
+                foreach (var result in results)
+                {
+                    string filePath = result.FullPath;
+                    string fileName = Path.GetFileName(filePath);
+                    Image_gal image = new Image_gal("Description", filePath, fileName);
+                    image.drawImage(galleryScrollView);
+                }
             }
         }
         catch (Exception ex)
