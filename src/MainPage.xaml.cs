@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.Maui.Controls.StyleSheets;
+
 namespace LomaPro
 {
     public partial class MainPage : ContentPage
@@ -9,67 +11,10 @@ namespace LomaPro
         {
             InitializeComponent();
 
-            VacationCover cover1 = new VacationCover
+            using (var reader = new StringReader("^contentpage { background-color: lightgray; }"))
             {
-                Image_Path = "Resources/Images/testbild_strand.jpeg",
-                Location = "Location1",
-                Title = "Title1",
-                Year = 2014
-            };
-            VacationCover cover2 = new VacationCover
-            {
-                Image_Path = "Resources/Images/testbild_strand.jpeg",
-                Location = "Location2",
-                Title = "Title2",
-                Year = 2020
-            };
-            VacationCover cover3 = new VacationCover
-            {
-                Image_Path = "Resources/Images/testbild_strand.jpeg",
-                Location = "Location3",
-                Title = "Title3",
-                Year = 2024
-            };
-
-            VacationCover cover4 = new VacationCover
-            {
-                Image_Path = "Resources/Images/testbild_strand.jpeg",
-                Location = "Location4",
-                Title = "Title4",
-                Year = 2025
-            };
-
-            VacationCover cover5 = new VacationCover
-            {
-                Image_Path = "Resources/Images/testbild_strand.jpeg",
-                Location = "Location5",
-                Title = "Title5",
-                Year = 2026
-            };
-
-            VacationCover cover6 = new VacationCover
-            {
-                Image_Path = "Resources/Images/testbild_strand.jpeg",
-                Location = "Location6",
-                Title = "Title6",
-                Year = 2027
-            };
-
-            VacationCover cover7 = new VacationCover
-            {
-                Image_Path = "Resources/Images/testbild_strand.jpeg",
-                Location = "Location7",
-                Title = "Title7",
-                Year = 2028
-            };
-            vacationCoversList.Add(cover1);
-            vacationCoversList.Add(cover2);
-            vacationCoversList.Add(cover3);
-            vacationCoversList.Add(cover4);
-            vacationCoversList.Add(cover5);
-            vacationCoversList.Add(cover6);
-            vacationCoversList.Add(cover7);
-            MakeCover();
+                this.Resources.Add(StyleSheet.FromReader(reader));
+            }
 
         }
         public void OnGalleryClicked(object sender, EventArgs e)
@@ -79,13 +24,26 @@ namespace LomaPro
 
         private async void AddHolidayButtonClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new Add_Holiday());
+            var addHolidayPage = new Add_Holiday();
+            addHolidayPage.Tcs = new TaskCompletionSource<VacationCover>();
+
+            await Navigation.PushAsync(addHolidayPage);
+
+            var result = await addHolidayPage.Tcs.Task;
+
+            if (result != null)
+            {
+                vacationCoversList.Add(result);
+                MakeCover();
+            }
         }
+
 
         public void OnRightButtonClicked(object sender, EventArgs e)
         {
             x++;
             MakeCover();
+
         }
 
         public void OnLeftButtonClicked(object sender, EventArgs e)
@@ -99,7 +57,6 @@ namespace LomaPro
         {
             ImageStackPanel.Children.Clear();
 
-            
             int currentYear = DateTime.Now.Year;
             while (true)
             {
@@ -115,24 +72,26 @@ namespace LomaPro
                 x++;
             }
 
-            for (int i = 0; i < 3; i++)
+            if (vacationCoversList.Count > 0)
             {
-                int index = (i + x + vacationCoversList.Count) % vacationCoversList.Count;
-                var cover = vacationCoversList[index];
+                for (int i = 0; i < 3; i++)
+                {
+                    int index = (i + x + vacationCoversList.Count) % vacationCoversList.Count;
+                    var cover = vacationCoversList[index];
 
-                var image = new Image { Source = cover.Image_Path };
-                var title = new Label { Text = cover.Title, FontSize = 20};
-                var year = new Label { Text = cover.Year.ToString(), FontSize = 16 };
-                var location = new Label { Text = cover.Location, FontSize = 16 };
+                    var image = new Image { Source = cover.Image_Path };
+                    var title = new Label { Text = cover.Title, FontSize = 20 };
+                    var year = new Label { Text = cover.Year.ToString(), FontSize = 16 };
+                    var location = new Label { Text = cover.Location, FontSize = 16 };
 
+                    var stackLayout = new StackLayout();
+                    stackLayout.Children.Add(title);
+                    stackLayout.Children.Add(year);
+                    stackLayout.Children.Add(image);
+                    stackLayout.Children.Add(location);
 
-                var stackLayout = new StackLayout();
-                stackLayout.Children.Add(title);
-                stackLayout.Children.Add(year);
-                stackLayout.Children.Add(image);
-                stackLayout.Children.Add(location);
-
-                ImageStackPanel.Children.Add(stackLayout);
+                    ImageStackPanel.Children.Add(stackLayout);
+                }
             }
         }
     }

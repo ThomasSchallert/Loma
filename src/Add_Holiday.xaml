@@ -1,12 +1,61 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LomaPro.Add_Holiday"
              Title="Add_Holiday">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <StyleSheet Source="Resources/Styles/styles.css" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <StackLayout HorizontalOptions="FillAndExpand" Margin="20" Spacing="10">
+
+            <Label Text="Title" StyleClass="title" LineBreakMode="WordWrap" FontAttributes="Bold" />
+            <Editor x:Name="TitleEntry" HeightRequest="60" />
+
+            <Button Text="+" StyleClass="plusButton" BackgroundColor="#2fe52c" FontAttributes="Bold"/>
+
+            <Label Text="Location" StyleClass="location" LineBreakMode="WordWrap" FontAttributes="Bold" />
+            <Editor x:Name="LocationEntry" HeightRequest="60" />
+
+            <Label Text="Description" StyleClass="description" LineBreakMode="WordWrap" FontAttributes="Bold" />
+            <Editor x:Name="DescriptionEntry" HeightRequest="60" AutoSize="TextChanges"/>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Frame CornerRadius="10" Padding="0" BackgroundColor="#2e2f31" Grid.Column="0">
+                    <Grid>
+                        <DatePicker x:Name="StartDateEntry" HorizontalOptions="CenterAndExpand" Margin="10" BackgroundColor="#2e2f31" Visual="Material" />
+                        <Label Text="Start" HorizontalOptions="CenterAndExpand" Margin="10,0,0,0" FontAttributes="Bold" BackgroundColor="Transparent" />
+                    </Grid>
+                </Frame>
+
+                <Frame CornerRadius="10" Padding="0" BackgroundColor="#2e2f31" Grid.Column="1">
+                    <Grid>
+                        <DatePicker x:Name="EndDateEntry" HorizontalOptions="CenterAndExpand" Margin="10" BackgroundColor="#2e2f31" Visual="Material"/>
+                        <Label Text="End" HorizontalOptions="CenterAndExpand" Margin="10,0,0,0" FontAttributes="Bold"/>
+                    </Grid>
+                </Frame>
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button Text="Add" StyleClass="addButton" Grid.Column="1" Clicked="OnAddButtonClicked" Margin="5" BackgroundColor="#2fe52c" FontAttributes="Bold"/>
+                <Button Text="Cancel" StyleClass="cancelButton" Grid.Column="0" Clicked="OnCancelButtonClicked" Margin="5" BackgroundColor="#2e2f31" FontAttributes="Bold" TextColor="White"/>
+
+            </Grid>
+
+        </StackLayout>
+    </ScrollView>
+
 </ContentPage>
