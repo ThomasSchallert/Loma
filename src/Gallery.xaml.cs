@@ -57,7 +57,9 @@ namespace LomaPro
 
                 if (results != null)
                 {
-                    string destinationFolder = @"C:\Users\thoma\OneDrive\Dokumente\Schule\2 AHIF FÄCHER\POS\Loma\Loma\src\Resources\Images";
+                    string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                    string projectDirectory = Directory.GetParent(baseDirectory).Parent.Parent.Parent.Parent.Parent.FullName;
+                    string destinationFolder = Path.Combine(projectDirectory, "Resources", "Images");
 
                     foreach (var result in results)
                     {
