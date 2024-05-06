@@ -1,7 +1,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LomaPro.Add_Holiday"
-             Title="Add_Holiday">
+             Title="Add_Holiday"
+             BackgroundColor="#222222">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -32,14 +33,14 @@
                 <Frame CornerRadius="10" Padding="0" BackgroundColor="#2e2f31" Grid.Column="0">
                     <Grid>
                         <DatePicker x:Name="StartDateEntry" HorizontalOptions="CenterAndExpand" Margin="10" BackgroundColor="#2e2f31" Visual="Material" />
-                        <Label Text="Start" HorizontalOptions="CenterAndExpand" Margin="10,0,0,0" FontAttributes="Bold" BackgroundColor="Transparent" />
+                        <Label Text="Start" HorizontalOptions="CenterAndExpand" Margin="10,0,0,0" FontAttributes="Bold" FontSize="18"/>
                     </Grid>
                 </Frame>
 
                 <Frame CornerRadius="10" Padding="0" BackgroundColor="#2e2f31" Grid.Column="1">
                     <Grid>
                         <DatePicker x:Name="EndDateEntry" HorizontalOptions="CenterAndExpand" Margin="10" BackgroundColor="#2e2f31" Visual="Material"/>
-                        <Label Text="End" HorizontalOptions="CenterAndExpand" Margin="10,0,0,0" FontAttributes="Bold"/>
+                        <Label Text="End" HorizontalOptions="CenterAndExpand" Margin="10,0,0,0" FontAttributes="Bold" FontSize="18"/>
                     </Grid>
                 </Frame>
             </Grid>
