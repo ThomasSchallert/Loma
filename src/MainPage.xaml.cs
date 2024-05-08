@@ -53,7 +53,7 @@ namespace LomaPro
                 {
                     Source = cover.Image_Path,
                     Aspect = Aspect.AspectFill,
-                    Margin = -10
+                    //Margin = -10
                 };
                 var frame = new Frame
                 {
