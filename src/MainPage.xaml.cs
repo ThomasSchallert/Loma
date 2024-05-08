@@ -1,27 +1,25 @@
-﻿
-using Microsoft.Maui.Controls.StyleSheets;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Graphics;
+
 
 namespace LomaPro
 {
     public partial class MainPage : ContentPage
     {
-        List<VacationCover> vacationCoversList = new List<VacationCover>();
-        int x = 0; // gratulation, x your finaly in class level!
+        private List<VacationCover> vacationCoversList = new List<VacationCover>();
+        private int x = 0;
+
         public MainPage()
         {
             InitializeComponent();
-
-            using (var reader = new StringReader("^contentpage { background-color: lightgray; }"))
-            {
-                this.Resources.Add(StyleSheet.FromReader(reader));
-            }
-
         }
-        public void OnGalleryClicked(object sender, EventArgs e)
+        public async void OnGalleryClicked(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new Gallery());
+            await Navigation.PushAsync(new Gallery());
         }
-
         private async void AddHolidayButtonClicked(object sender, EventArgs e)
         {
             var addHolidayPage = new Add_Holiday();
@@ -34,64 +32,101 @@ namespace LomaPro
             if (result != null)
             {
                 vacationCoversList.Add(result);
+                vacationCoversList = vacationCoversList.OrderBy(cover => cover.Year).ToList();
+
+                // Set x to the index of the added VacationCover
+                x = vacationCoversList.IndexOf(result);
+
                 MakeCover();
             }
-        }
-
-
-        public void OnRightButtonClicked(object sender, EventArgs e)
-        {
-            x++;
-            MakeCover();
-
-        }
-
-        public void OnLeftButtonClicked(object sender, EventArgs e)
-        {
-            x--;
-            if (x < 0) x += vacationCoversList.Count;
-            MakeCover();
         }
 
         private void MakeCover()
         {
             ImageStackPanel.Children.Clear();
 
-            int currentYear = DateTime.Now.Year;
-            while (true)
-            {
-                if (x >= (vacationCoversList.Count - 1))
-                {
-                    break;
-                }
-                var element = vacationCoversList[x];
-                if (element.Year >= currentYear)
-                {
-                    break;
-                }
-                x++;
-            }
-
             if (vacationCoversList.Count > 0)
             {
+                var grid = new Grid
+                {
+                    RowDefinitions =
+            {
+                new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
+                new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) },
+                new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) },
+                new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) }
+            },
+                    ColumnDefinitions =
+            {
+                new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
+                new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
+                new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }
+            }
+                };
+
                 for (int i = 0; i < 3; i++)
                 {
                     int index = (i + x + vacationCoversList.Count) % vacationCoversList.Count;
                     var cover = vacationCoversList[index];
 
-                    var image = new Image { Source = cover.Image_Path };
-                    var title = new Label { Text = cover.Title, FontSize = 20 };
-                    var year = new Label { Text = cover.Year.ToString(), FontSize = 16 };
-                    var location = new Label { Text = cover.Location, FontSize = 16 };
+                    var image = new Image
+                    {
+                        Source = cover.Image_Path,
+                        Aspect = Aspect.AspectFill
+                    };
+                    var frame = new Frame
+                    {
+                        Content = image,
+                        Margin = 10,
+                        CornerRadius = 10
+                    };
+                    var title = new Label { Text = cover.Title, FontSize = 20, TextColor = Microsoft.Maui.Graphics.Colors.White };
+                    var year = new Label { Text = cover.Year.ToString(), FontSize = 16, TextColor = Microsoft.Maui.Graphics.Colors.White };
+                    var location = new Label { Text = cover.Location, FontSize = 16, TextColor = Microsoft.Maui.Graphics.Colors.White };
 
-                    var stackLayout = new StackLayout();
-                    stackLayout.Children.Add(title);
-                    stackLayout.Children.Add(year);
-                    stackLayout.Children.Add(image);
-                    stackLayout.Children.Add(location);
+                    grid.Children.Add(frame);
+                    Grid.SetRow(frame, 0);
+                    Grid.SetColumn(frame, i);
 
-                    ImageStackPanel.Children.Add(stackLayout);
+                    grid.Children.Add(title);
+                    Grid.SetRow(title, 1);
+                    Grid.SetColumn(title, i);
+
+                    grid.Children.Add(year);
+                    Grid.SetRow(year, 2);
+                    Grid.SetColumn(year, i);
+
+                    grid.Children.Add(location);
+                    Grid.SetRow(location, 3);
+                    Grid.SetColumn(location, i);
                 }
+
+                ImageStackPanel.Children.Add(grid);
+            }
+        }
+
+
+
+        private void LeftButtonClicked(object sender, EventArgs e)
+        {
+            if (vacationCoversList.Count > 0)
+            {
+                x--;
+                if (x < 0)
+                {
+                    x += vacationCoversList.Count;
+                }
+                MakeCover();
+            }
+        }
+
+        private void RightButtonClicked(object sender, EventArgs e)
+        {
+            if (vacationCoversList.Count > 0)
+            {
+                x++;
+                x %= vacationCoversList.Count;
+                MakeCover();
             }
         }
     }

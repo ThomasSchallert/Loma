@@ -8,10 +8,10 @@
             <StyleSheet Source="Resources/Styles/styles.css" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="3*" />
+            <RowDefinition Height="4*" />
             <RowDefinition Height="3*" />
             <RowDefinition Height="2*" />
             <RowDefinition Height="2*" />
@@ -21,14 +21,18 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackLayout x:Name="ImageStackPanel" Orientation="Horizontal" StyleClass="imageStack" HorizontalOptions="CenterAndExpand" Grid.ColumnSpan="2" Margin="10">
-        </StackLayout>
-        <Button x:Name="ButtonLeft" Text="&lt;" FontAttributes="Bold" HorizontalOptions="Start" VerticalOptions="Center" Grid.Column="0" Grid.RowSpan="2" Clicked="OnLeftButtonClicked" Margin="10" BackgroundColor="#ffffff" TextColor="#222222"/>
-        <Button x:Name="ButtonLRight" Text="&gt;" FontAttributes="Bold" HorizontalOptions="End" VerticalOptions="Center" Grid.Column="1" Grid.RowSpan="2" Clicked="OnRightButtonClicked" Margin="10" BackgroundColor="#ffffff" TextColor="#222222"/>
+        <Frame Grid.Row="1" Grid.ColumnSpan="2" Margin="10" HeightRequest="600" VerticalOptions="CenterAndExpand" BackgroundColor="#2e2f31">
+            <StackLayout x:Name="ImageStackPanel" Orientation="Horizontal" StyleClass="imageStack" HorizontalOptions="CenterAndExpand"/>
+        </Frame>
+
+        <Button x:Name="ButtonLeft" Text="&lt;" FontAttributes="Bold" HorizontalOptions="Start" VerticalOptions="Center" Grid.Column="0" Grid.RowSpan="2" Clicked="LeftButtonClicked" Margin="10" TextColor="#fff" HeightRequest="50" BackgroundColor="#2fe52c"/>
+        <Button x:Name="ButtonLRight" Text="&gt;" FontAttributes="Bold" HorizontalOptions="End" VerticalOptions="Center" Grid.Column="1" Grid.RowSpan="2" Clicked="RightButtonClicked" Margin="10" TextColor="#fff" HeightRequest="50" BackgroundColor="#2fe52c"/>
+
 
         <Button Text="+" HorizontalOptions="Center" VerticalOptions="Center" Grid.ColumnSpan="2" Grid.Row="2" Clicked="AddHolidayButtonClicked" BackgroundColor="#ffffff" TextColor="#222222"/>
         <Button Text="Gallery" HorizontalOptions="Center" VerticalOptions="Center" Grid.ColumnSpan="2" Grid.Row="3" Clicked="OnGalleryClicked" BackgroundColor="#ffffff" TextColor="#222222"/>
     </Grid>
+
 
 </ContentPage>
 
