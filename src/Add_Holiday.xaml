@@ -13,16 +13,16 @@
     <ScrollView>
         <StackLayout HorizontalOptions="FillAndExpand" Margin="20" Spacing="10">
 
-            <Label Text="Title" StyleClass="title" LineBreakMode="WordWrap" FontAttributes="Bold" />
-            <Editor x:Name="TitleEntry" HeightRequest="60" />
+            <Label Text="Title" StyleClass="title" LineBreakMode="WordWrap" FontAttributes="Bold" TextColor="White"/>
+            <Editor x:Name="TitleEntry" HeightRequest="60" AutoSize="TextChanges" TextColor="White" FontSize="20"/>
 
             <Button Text="+" StyleClass="plusButton" BackgroundColor="#2fe52c" FontAttributes="Bold"/>
 
-            <Label Text="Location" StyleClass="location" LineBreakMode="WordWrap" FontAttributes="Bold" />
-            <Editor x:Name="LocationEntry" HeightRequest="60" />
+            <Label Text="Location" StyleClass="location" LineBreakMode="WordWrap" FontAttributes="Bold" TextColor="White"/>
+            <Editor x:Name="LocationEntry" HeightRequest="60" AutoSize="TextChanges" TextColor="White" FontSize="20"/>
 
-            <Label Text="Description" StyleClass="description" LineBreakMode="WordWrap" FontAttributes="Bold" />
-            <Editor x:Name="DescriptionEntry" HeightRequest="60" AutoSize="TextChanges"/>
+            <Label Text="Description" StyleClass="description" LineBreakMode="WordWrap" FontAttributes="Bold" TextColor="White"/>
+            <Editor x:Name="DescriptionEntry" HeightRequest="60" AutoSize="TextChanges" TextColor="White" FontSize="20"/>
 
             <Grid>
                 <Grid.ColumnDefinitions>
