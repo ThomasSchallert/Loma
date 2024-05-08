@@ -7,11 +7,12 @@ public partial class Add_Holiday : ContentPage
     public Add_Holiday()
     {
         InitializeComponent();
+        Tcs = new TaskCompletionSource<VacationCover>();
     }
 
     void OnAddButtonClicked(object sender, EventArgs e)
     {
-        string imagePath = "Resources/Images/testbild_strand.jpeg";/*ImagePathEntry.Text;*/
+        string imagePath = "testbild_strand.jpeg";/*ImagePathEntry.Text;*/
         string location = LocationEntry.Text;
         string title = TitleEntry.Text;
         int year = StartDateEntry.Date.Year;
