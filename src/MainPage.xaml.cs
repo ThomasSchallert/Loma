@@ -1,28 +1,24 @@
-﻿
-using Microsoft.Maui.Controls.StyleSheets;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Maui.Controls;
 
 namespace LomaPro
 {
     public partial class MainPage : ContentPage
     {
-        List<VacationCover> vacationCoversList = new List<VacationCover>();
-        int x = 0; // gratulation, x your finaly in class level!
+        private List<VacationCover> vacationCoversList = new List<VacationCover>();
+        private int x = 0;
+
         public MainPage()
         {
             InitializeComponent();
-
-            using (var reader = new StringReader("^contentpage { background-color: lightgray; }"))
-            {
-                this.Resources.Add(StyleSheet.FromReader(reader));
-            }
-
         }
-        public void OnGalleryClicked(object sender, EventArgs e)
+        public async void OnGalleryClicked(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new Gallery());
+            await Navigation.PushAsync(new Gallery());
         }
-
-        private async void AddHolidayButtonClicked(object sender, EventArgs e)
+            private async void AddHolidayButtonClicked(object sender, EventArgs e)
         {
             var addHolidayPage = new Add_Holiday();
             addHolidayPage.Tcs = new TaskCompletionSource<VacationCover>();
@@ -34,43 +30,18 @@ namespace LomaPro
             if (result != null)
             {
                 vacationCoversList.Add(result);
+                vacationCoversList = vacationCoversList.OrderBy(cover => cover.Year).ToList();
+
+                // Set x to the index of the added VacationCover
+                x = vacationCoversList.IndexOf(result);
+
                 MakeCover();
             }
-        }
-
-
-        public void OnRightButtonClicked(object sender, EventArgs e)
-        {
-            x++;
-            MakeCover();
-
-        }
-
-        public void OnLeftButtonClicked(object sender, EventArgs e)
-        {
-            x--;
-            if (x < 0) x += vacationCoversList.Count;
-            MakeCover();
         }
 
         private void MakeCover()
         {
             ImageStackPanel.Children.Clear();
-
-            int currentYear = DateTime.Now.Year;
-            while (true)
-            {
-                if (x >= (vacationCoversList.Count - 1))
-                {
-                    break;
-                }
-                var element = vacationCoversList[x];
-                if (element.Year >= currentYear)
-                {
-                    break;
-                }
-                x++;
-            }
 
             if (vacationCoversList.Count > 0)
             {
@@ -93,6 +64,23 @@ namespace LomaPro
                     ImageStackPanel.Children.Add(stackLayout);
                 }
             }
+        }
+
+        private void LeftButtonClicked(object sender, EventArgs e)
+        {
+            x--;
+            if (x < 0)
+            {
+                x += vacationCoversList.Count;
+            }
+            MakeCover();
+        }
+
+        private void RightButtonClicked(object sender, EventArgs e)
+        {
+            x++;
+            x %= vacationCoversList.Count;
+            MakeCover();
         }
     }
 }
