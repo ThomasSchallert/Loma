@@ -1,3 +1,5 @@
+using System.Reflection;
+
 namespace LomaPro
 {
     public partial class Gallery : ContentPage
@@ -15,18 +17,14 @@ namespace LomaPro
         public void LoadImages()
         {
 
-            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            string projectDirectory = Directory.GetParent(baseDirectory).Parent.Parent.Parent.Parent.Parent.FullName;
-            string imagesFolder = Path.Combine(projectDirectory, "Resources", "Images");
-
-
-
-
-
+            string imagesFolder = "./";
 
             if (Directory.Exists(imagesFolder))
             {
-                var imageFiles = Directory.GetFiles(imagesFolder, "*.jpeg").Concat(Directory.GetFiles(imagesFolder, "*.png"));
+                var imageExtensions = new string[] { ".jpeg", ".jpg", ".png", ".gif", ".bmp" };
+               
+                var imageFiles = Directory.GetFiles(imagesFolder).Where(file => imageExtensions.Contains(Path.GetExtension(file).ToLower()));
+                imageFiles = new string[] { "testbild_strand.jpeg" };
                 if (galleryScrollView.Content is StackLayout stackLayout)
                 {
                 stackLayout.Children.Clear();
@@ -40,7 +38,7 @@ namespace LomaPro
                 }
                 foreach (Image_gal image in imageList)
                 {
-                    image.drawImage(galleryScrollView);
+                    image.drawImage(galleryScrollView, ImageExpand, overlay, CloseButton);
                 }
             }
         }
@@ -57,9 +55,10 @@ namespace LomaPro
 
                 if (results != null)
                 {
-                    string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-                    string projectDirectory = Directory.GetParent(baseDirectory).Parent.Parent.Parent.Parent.Parent.FullName;
-                    string destinationFolder = Path.Combine(projectDirectory, "Resources", "Images");
+                    //string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                    //string projectDirectory = Directory.GetParent(baseDirectory).Parent.Parent.Parent.Parent.Parent.FullName;
+                    //string destinationFolder = Path.Combine(projectDirectory, "Resources", "Images");
+                    string destinationFolder = "Resources/Images"; 
 
                     foreach (var result in results)
                     {
@@ -71,7 +70,7 @@ namespace LomaPro
                         File.Copy(filePath, destinationPath, overwrite: true);
 
                         Image_gal image = new Image_gal("Description", destinationPath, fileName);
-                        image.drawImage(galleryScrollView);
+                        image.drawImage(galleryScrollView, ImageExpand, overlay, CloseButton);
                     }
                     
                 }
@@ -85,6 +84,17 @@ namespace LomaPro
         private void Button_Clicked(object sender, EventArgs e)
         {
             addImage();
+        }
+
+        private void CloseButton_Clicked(object sender, EventArgs e)
+        {
+            ImageExpand.IsVisible = false;
+            ImageExpand.Source = null;
+
+            overlay.IsVisible = false;
+            overlay.Color = Colors.Transparent;
+
+            CloseButton.IsVisible = false;
         }
     }
 }

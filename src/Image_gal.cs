@@ -1,4 +1,5 @@
 ﻿using Microsoft.Maui.Controls;
+using Microsoft.Maui.Graphics;
 using Microsoft.Maui.Layouts;
 
 namespace LomaPro
@@ -18,9 +19,10 @@ namespace LomaPro
             ImageName = imagename;
         }
 
-        public void drawImage(ScrollView galleryScrollView)
+        public void drawImage(ScrollView galleryScrollView, Image expandedimage, VisualElement blurElement, Button closeButton)
         {
-            FlexLayout flexLayout = galleryScrollView.Content as FlexLayout;
+            FlexLayout flexLayout = (FlexLayout)galleryScrollView.Content;
+            galleryScrollView.ZIndex = 0;
 
             if (flexLayout == null)
             {
@@ -30,24 +32,51 @@ namespace LomaPro
                 galleryScrollView.Content = flexLayout;
             }
 
-            Frame imageFrame = new Frame();
-            imageFrame.WidthRequest = double.NaN;
-            imageFrame.HeightRequest = height;
-            imageFrame.Margin = new Thickness(5, 5, 0, 0);
-            imageFrame.Padding = new Thickness(0);
-            imageFrame.CornerRadius = 0; // optional: set corner radius to 0 to remove rounded corners
+            Frame imageFrame = new Frame
+            {
+                WidthRequest = double.NaN,
+                HeightRequest = height,
+                Margin = new Thickness(5, 5, 0, 0),
+                Padding = new Thickness(0),
+                CornerRadius = 0,
+                ZIndex = 0
+            };
 
-            // Create the image
-            Image image = new Image();
-            image.Source = ImageSource.FromFile(Imagepath);
+            Image image = new Image
+            {
+                Source = ImageSource.FromFile(Imagepath),
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center,
+                Aspect = Aspect.AspectFit,
+            };
 
             imageFrame.Content = image;
 
-            image.HorizontalOptions = LayoutOptions.Center;
-            image.VerticalOptions = LayoutOptions.Center;
-            image.Aspect = Aspect.AspectFit;
+            imageFrame.GestureRecognizers.Add(new TapGestureRecognizer
+            {
+                Command = new Command(() =>
+                {
+                    expandImage(expandedimage, blurElement, closeButton);
+                })
+            });
 
             flexLayout.Children.Add(imageFrame);
+        }
+
+        public void expandImage(Image expandImage, VisualElement blurElement, Button closeButton)
+        {
+            expandImage.Source = ImageName;
+            expandImage.IsVisible = true;
+            expandImage.ZIndex = 2;
+
+            closeButton.IsVisible = true;
+
+            if (blurElement is BoxView boxView)
+            {
+                boxView.Color = Colors.Black.MultiplyAlpha((float)0.9);
+                boxView.IsVisible = true;
+            }
+
         }
 
     }
