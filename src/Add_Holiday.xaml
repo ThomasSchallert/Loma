@@ -16,7 +16,7 @@
             <Label Text="Title" StyleClass="title" LineBreakMode="WordWrap" FontAttributes="Bold" TextColor="White"/>
             <Editor x:Name="TitleEntry" HeightRequest="60" AutoSize="TextChanges" TextColor="White" FontSize="20"/>
 
-            <Button Text="+" StyleClass="plusButton" BackgroundColor="#2fe52c" FontAttributes="Bold"/>
+            <Button x:Name="AddImageBtn" Text="+" StyleClass="plusButton" BackgroundColor="#2fe52c" FontAttributes="Bold" Clicked="AddImageBtn_Clicked"/>
 
             <Label Text="Location" StyleClass="location" LineBreakMode="WordWrap" FontAttributes="Bold" TextColor="White"/>
             <Editor x:Name="LocationEntry" HeightRequest="60" AutoSize="TextChanges" TextColor="White" FontSize="20"/>
