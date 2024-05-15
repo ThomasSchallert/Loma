@@ -37,9 +37,9 @@ namespace LomaPro
                 var image = new Image
                 {
                     Source = cover.Image_Path,
-                    Aspect = Aspect.AspectFit,
-                    VerticalOptions = LayoutOptions.FillAndExpand, // Add this line
-                    HorizontalOptions = LayoutOptions.FillAndExpand // Add this line
+                    Aspect = Aspect.AspectFit, // Set Aspect to AspectFit
+                    VerticalOptions = LayoutOptions.FillAndExpand,
+                    HorizontalOptions = LayoutOptions.CenterAndExpand
                 };
                 var frame = new Frame
                 {
@@ -48,24 +48,23 @@ namespace LomaPro
                     CornerRadius = 10,
                     Padding = 0,
                     BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent,
-                    VerticalOptions = LayoutOptions.FillAndExpand, 
-                    HorizontalOptions = LayoutOptions.FillAndExpand
+                    VerticalOptions = LayoutOptions.FillAndExpand,
+                    HorizontalOptions = LayoutOptions.CenterAndExpand
                 };
                 var title = new Label { Text = cover.Title, FontSize = 20, TextColor = Microsoft.Maui.Graphics.Colors.White };
                 var year = new Label { Text = cover.Year.ToString(), FontSize = 16, TextColor = Microsoft.Maui.Graphics.Colors.White };
                 var location = new Label { Text = cover.Location, FontSize = 16, TextColor = Microsoft.Maui.Graphics.Colors.White };
 
-                var stackLayout = new StackLayout();
-                stackLayout.Children.Add(frame);
-                stackLayout.Children.Add(title);
-                stackLayout.Children.Add(year);
-                stackLayout.Children.Add(location);
+                var stackLayout = new StackLayout
+                {
+                    Children = { frame, title, year, location },
+                    VerticalOptions = LayoutOptions.CenterAndExpand
+                };
 
-                var scrollView = new ScrollView { Content = stackLayout };
-
-                ImageStackPanel.Children.Add(scrollView);
+                ImageStackPanel.Children.Add(stackLayout);
             }
         }
+
 
         private void LeftButtonClicked(object sender, EventArgs e)
         {
