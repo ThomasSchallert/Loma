@@ -11,8 +11,9 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*" />
-            <RowDefinition Height="6*" />
+            <RowDefinition Height="1*" />
+            <!-- Modify this line -->
+            <RowDefinition Height="7*" />
             <!-- Modify this line -->
             <RowDefinition Height="1*" />
             <RowDefinition Height="1*" />
@@ -25,7 +26,6 @@
         <Frame Grid.Row="1" Grid.ColumnSpan="2" Margin="10" VerticalOptions="FillAndExpand" BackgroundColor="#2e2f31">
             <StackLayout x:Name="ImageStackPanel" Orientation="Horizontal" StyleClass="imageStack" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand"/>
         </Frame>
-
         <Button x:Name="ButtonLeft" Text="&lt;" FontAttributes="Bold" HorizontalOptions="Start" VerticalOptions="Center" Grid.Column="0" Grid.RowSpan="2" Clicked="LeftButtonClicked" Margin="10" TextColor="#fff" HeightRequest="50" BackgroundColor="#2fe52c"/>
         <Button x:Name="ButtonLRight" Text="&gt;" FontAttributes="Bold" HorizontalOptions="End" VerticalOptions="Center" Grid.Column="1" Grid.RowSpan="2" Clicked="RightButtonClicked" Margin="10" TextColor="#fff" HeightRequest="50" BackgroundColor="#2fe52c"/>
 
