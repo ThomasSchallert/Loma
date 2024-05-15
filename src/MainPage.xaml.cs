@@ -15,30 +15,15 @@ namespace LomaPro
         public MainPage()
         {
             InitializeComponent();
+            LoadCovers();
         }
-        public async void OnGalleryClicked(object sender, EventArgs e)
+
+        private void LoadCovers()
         {
-            await Navigation.PushAsync(new Gallery());
-        }
-        private async void AddHolidayButtonClicked(object sender, EventArgs e)
-        {
-            var addHolidayPage = new Add_Holiday();
-            addHolidayPage.Tcs = new TaskCompletionSource<VacationCover>();
-
-            await Navigation.PushAsync(addHolidayPage);
-
-            var result = await addHolidayPage.Tcs.Task;
-
-            if (result != null)
-            {
-                vacationCoversList.Add(result);
-                vacationCoversList = vacationCoversList.OrderBy(cover => cover.Year).ToList();
-
-                // Set x to the index of the added VacationCover
-                x = vacationCoversList.IndexOf(result);
-
-                MakeCover();
-            }
+            // Load your covers here
+            // For example:
+            // vacationCoversList.Add(new VacationCover { Image_Path = "image1.jpg", Title = "Title1", Year = 2021, Location = "Location1" });
+            // vacationCoversList.Add(new VacationCover { Image_Path = "image2.jpg", Title = "Title2", Year = 2022, Location = "Location2" });
         }
 
         private void MakeCover()
@@ -52,8 +37,9 @@ namespace LomaPro
                 var image = new Image
                 {
                     Source = cover.Image_Path,
-                    Aspect = Aspect.AspectFill,
-                    //Margin = -10
+                    Aspect = Aspect.AspectFit,
+                    VerticalOptions = LayoutOptions.FillAndExpand, // Add this line
+                    HorizontalOptions = LayoutOptions.FillAndExpand // Add this line
                 };
                 var frame = new Frame
                 {
@@ -61,7 +47,9 @@ namespace LomaPro
                     Margin = 10,
                     CornerRadius = 10,
                     Padding = 0,
-                    BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent
+                    BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent,
+                    VerticalOptions = LayoutOptions.FillAndExpand, 
+                    HorizontalOptions = LayoutOptions.FillAndExpand
                 };
                 var title = new Label { Text = cover.Title, FontSize = 20, TextColor = Microsoft.Maui.Graphics.Colors.White };
                 var year = new Label { Text = cover.Year.ToString(), FontSize = 16, TextColor = Microsoft.Maui.Graphics.Colors.White };
@@ -73,33 +61,43 @@ namespace LomaPro
                 stackLayout.Children.Add(year);
                 stackLayout.Children.Add(location);
 
-                ImageStackPanel.Children.Add(stackLayout);
+                var scrollView = new ScrollView { Content = stackLayout };
+
+                ImageStackPanel.Children.Add(scrollView);
             }
         }
 
-
-
         private void LeftButtonClicked(object sender, EventArgs e)
         {
-            if (vacationCoversList.Count > 0)
+            if (x > 0)
             {
                 x--;
-                if (x < 0)
-                {
-                    x += vacationCoversList.Count;
-                }
                 MakeCover();
             }
         }
 
         private void RightButtonClicked(object sender, EventArgs e)
         {
-            if (vacationCoversList.Count > 0)
+            if (x < vacationCoversList.Count - 1)
             {
                 x++;
-                x %= vacationCoversList.Count;
                 MakeCover();
             }
+        }
+
+        private async void AddHolidayButtonClicked(object sender, EventArgs e)
+        {
+            var addHolidayPage = new Add_Holiday();
+            await Navigation.PushAsync(addHolidayPage);
+            var result = await addHolidayPage.Tcs.Task;
+            vacationCoversList.Add(result);
+            MakeCover();
+        }
+
+        private async void OnGalleryClicked(object sender, EventArgs e)
+        {
+            var galleryPage = new Gallery();
+            await Navigation.PushAsync(galleryPage);
         }
     }
 }
