@@ -1,49 +1,47 @@
+using System.Reflection;
+using System.Text.Json;
+
+
 namespace LomaPro
 {
     public partial class Gallery : ContentPage
     {
+
         public List<Image_gal> imageList = new List<Image_gal>();
 
         public Gallery()
         {
             InitializeComponent();
             BackgroundColor = Color.FromArgb("#333333");
-            LoadImages();
+            string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            imageList = LoadImagesFromJson(exepath + "/Gallerysave.json");
+            DrawImages();
+            
         }
-        
-
-        public void LoadImages()
+        static List<Image_gal> LoadImagesFromJson(string path)
         {
-
-            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            string projectDirectory = Directory.GetParent(baseDirectory).Parent.Parent.Parent.Parent.Parent.FullName;
-            string imagesFolder = Path.Combine(projectDirectory, "Resources", "Images");
-
-
-
-
-
-
-            if (Directory.Exists(imagesFolder))
+            List<Image_gal> imageList = null;
+            // Load from file
+            using (StreamReader stream = new StreamReader(path))
             {
-                var imageFiles = Directory.GetFiles(imagesFolder, "*.jpeg").Concat(Directory.GetFiles(imagesFolder, "*.png"));
-                if (galleryScrollView.Content is StackLayout stackLayout)
-                {
-                stackLayout.Children.Clear();
-                }
+                string serializedData = stream.ReadToEnd();
+                // Deserialize the string into a student object
+                imageList = JsonSerializer.Deserialize<List<Image_gal>>(serializedData);
+                
+            }
 
-                foreach (var imagePath in imageFiles)
-                {
-                    string fileName = Path.GetFileName(imagePath);
-                    Image_gal image = new Image_gal("Description", imagePath, fileName);
-                    imageList.Add(image);
-                }
-                foreach (Image_gal image in imageList)
-                {
-                    image.drawImage(galleryScrollView);
-                }
+            return imageList;
+        }
+        public void DrawImages()
+        {
+            foreach (Image_gal image in imageList)
+            {
+                image.drawImage(galleryScrollView, ImageExpand, overlay, CloseButton);
             }
         }
+
+
+
 
         public async void addImage()
         {
@@ -57,21 +55,20 @@ namespace LomaPro
 
                 if (results != null)
                 {
-                    string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-                    string projectDirectory = Directory.GetParent(baseDirectory).Parent.Parent.Parent.Parent.Parent.FullName;
-                    string destinationFolder = Path.Combine(projectDirectory, "Resources", "Images");
-
                     foreach (var result in results)
                     {
                         string filePath = result.FullPath;
                         string fileName = Path.GetFileName(filePath);
-                        string destinationPath = Path.Combine(destinationFolder, fileName);
 
-                        // Kopieren der ausgewählten Datei an den Zielort
-                        File.Copy(filePath, destinationPath, overwrite: true);
 
-                        Image_gal image = new Image_gal("Description", destinationPath, fileName);
-                        image.drawImage(galleryScrollView);
+                        Image_gal image = new Image_gal("Description", filePath, fileName);
+                        imageList.Add(image);
+                        var options = new JsonSerializerOptions() { WriteIndented = true };
+                        string jsonImages = JsonSerializer.Serialize(imageList, options);
+                        string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                        SaveJsonToFile(jsonImages, exepath+ "/Gallerysave.json");
+
+                        image.drawImage(galleryScrollView, ImageExpand, overlay, CloseButton);
                     }
                     
                 }
@@ -81,10 +78,29 @@ namespace LomaPro
                 Console.WriteLine($"Exception: {ex}");
             }
         }
+        static void SaveJsonToFile(string jsonString, string path)
+        {
+            using (StreamWriter stream = new StreamWriter(path, append: false))
+            { 
+                stream.WriteLine(jsonString);
+            }
+        }
+
 
         private void Button_Clicked(object sender, EventArgs e)
         {
             addImage();
+        }
+
+        private void CloseButton_Clicked(object sender, EventArgs e)
+        {
+            ImageExpand.IsVisible = false;
+            ImageExpand.Source = null;
+
+            overlay.IsVisible = false;
+            overlay.Color = Colors.Transparent;
+
+            CloseButton.IsVisible = false;
         }
     }
 }

@@ -4,14 +4,47 @@
              BackgroundColor="Black">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+        <!-- Hintergrund Overlay -->
+        <BoxView x:Name="overlay"
+                 Color="Black"
+                 Opacity="0.9"
+                 IsVisible="False"
+                 ZIndex="1"
+                 InputTransparent="True" />
 
-        <ScrollView x:Name="galleryScrollView" Grid.Row="0">
+        <ScrollView x:Name="galleryScrollView"
+                    Grid.Row="0"
+                    ZIndex="1"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand">
         </ScrollView>
 
-        <Button Text="+" Grid.Row="1" HorizontalOptions="Center" VerticalOptions="End" CornerRadius="50" Margin="0,0,0,20" Clicked="Button_Clicked" />
+        <Image x:Name="ImageExpand"
+               Aspect="AspectFit"
+               HeightRequest="400"
+               IsVisible="False"
+               HorizontalOptions="CenterAndExpand"
+               ZIndex="0"
+               VerticalOptions="CenterAndExpand"/>
+
+        <Button Text="+"
+                Grid.Row="1"
+                HorizontalOptions="Center"
+                VerticalOptions="End"
+                CornerRadius="50"
+                ZIndex="0"
+                Margin="0,0,0,20"
+                Clicked="Button_Clicked" />
+        
+        <Button x:Name="CloseButton"
+                Text="X"
+                Clicked="CloseButton_Clicked"
+                HorizontalOptions="End"
+                VerticalOptions="Start"
+                Margin="10"
+                BackgroundColor="Transparent"
+                TextColor="White"
+                ZIndex="2"
+                IsVisible="False" />
     </Grid>
 </ContentPage>
