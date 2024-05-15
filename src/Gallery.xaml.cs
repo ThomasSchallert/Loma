@@ -14,10 +14,17 @@ namespace LomaPro
             InitializeComponent();
             BackgroundColor = Color.FromArgb("#333333");
             string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            SaveJsonToFile("[]", exepath + "/Gallerysave.json");
-            imageList = LoadImagesFromJson(exepath + "/Gallerysave.json");
-            DrawImages();
+            try
+            {
+                imageList = LoadImagesFromJson(exepath + "/Gallerysave.json");
+                DrawImages();
+            }
+            catch
+            {
+                SaveJsonToFile("", exepath + "/Gallerysave.json");
+            }
             
+
         }
         static List<Image_gal> LoadImagesFromJson(string path)
         {
@@ -88,7 +95,7 @@ namespace LomaPro
         }
 
 
-        private void Button_Clicked(object sender, EventArgs e)
+        private void AddImage_Button_Clicked(object sender, EventArgs e)
         {
             addImage();
         }

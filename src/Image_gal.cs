@@ -68,12 +68,13 @@ namespace LomaPro
         {
             expandImage.Source = ImageName;
             expandImage.IsVisible = true;
-            expandImage.ZIndex = 2;
+            expandImage.ZIndex = 3;
 
             closeButton.IsVisible = true;
 
             if (blurElement is BoxView boxView)
             {
+                blurElement.ZIndex = 2;
                 boxView.Color = Colors.Black.MultiplyAlpha((float)0.9);
                 boxView.IsVisible = true;
             }

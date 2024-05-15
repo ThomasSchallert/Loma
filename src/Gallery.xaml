@@ -32,9 +32,9 @@
                 HorizontalOptions="Center"
                 VerticalOptions="End"
                 CornerRadius="50"
-                ZIndex="0"
+                ZIndex="1"
                 Margin="0,0,0,20"
-                Clicked="Button_Clicked" />
+                Clicked="AddImage_Button_Clicked" />
         
         <Button x:Name="CloseButton"
                 Text="X"
