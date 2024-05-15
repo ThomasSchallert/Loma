@@ -14,7 +14,7 @@ namespace LomaPro
             InitializeComponent();
             BackgroundColor = Color.FromArgb("#333333");
             string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            imageList = LoadImagesFromJson(exepath + "/test.json");
+            imageList = LoadImagesFromJson(exepath + "/Gallerysave.json");
             DrawImages();
             
         }
@@ -66,7 +66,7 @@ namespace LomaPro
                         var options = new JsonSerializerOptions() { WriteIndented = true };
                         string jsonImages = JsonSerializer.Serialize(imageList, options);
                         string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                        SaveJsonToFile(jsonImages, exepath+ "/test.json");
+                        SaveJsonToFile(jsonImages, exepath+ "/Gallerysave.json");
 
                         image.drawImage(galleryScrollView, ImageExpand, overlay, CloseButton);
                     }
