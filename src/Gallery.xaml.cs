@@ -14,6 +14,7 @@ namespace LomaPro
             InitializeComponent();
             BackgroundColor = Color.FromArgb("#333333");
             string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            SaveJsonToFile("[]", exepath + "/Gallerysave.json");
             imageList = LoadImagesFromJson(exepath + "/Gallerysave.json");
             DrawImages();
             
