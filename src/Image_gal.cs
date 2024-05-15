@@ -7,10 +7,11 @@ namespace LomaPro
     public class Image_gal
     {
         public double totalw = 0;
-        public string Imagedescription;
-        public string Imagepath;
-        public string ImageName;
+        public string Imagedescription { get; set; }
+        public string Imagepath { get; set; }
+        public string ImageName { get; set; }
         private int height = 200;
+
 
         public Image_gal(string imagedescription, string imagepath, string imagename)
         {
