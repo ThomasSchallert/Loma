@@ -37,9 +37,10 @@ namespace LomaPro
                 var image = new Image
                 {
                     Source = cover.Image_Path,
-                    Aspect = Aspect.AspectFit, // Set Aspect to AspectFit
+                    Aspect = Aspect.AspectFit,
                     VerticalOptions = LayoutOptions.FillAndExpand,
-                    HorizontalOptions = LayoutOptions.CenterAndExpand
+                    HorizontalOptions = LayoutOptions.CenterAndExpand,
+                    BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent
                 };
                 var frame = new Frame
                 {

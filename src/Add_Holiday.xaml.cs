@@ -11,6 +11,7 @@ public partial class Add_Holiday : ContentPage
         Tcs = new TaskCompletionSource<VacationCover>();
     }
 
+
     async void AddImageBtn_Clicked(object sender, EventArgs e)
     {
         try
@@ -23,7 +24,8 @@ public partial class Add_Holiday : ContentPage
 
             if (result != null)
             {
-                selectedFilePath = result.FullPath; 
+                selectedFilePath = result.FullPath;
+                PreviewImage.Source = ImageSource.FromFile(selectedFilePath); // Add this line
             }
         }
         catch (Exception ex)
