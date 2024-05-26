@@ -8,20 +8,22 @@ namespace LomaPro
     {
 
         public List<Image_gal> imageList = new List<Image_gal>();
+        private string jsonfile;
 
-        public Gallery()
+        public Gallery(string filename)
         {
+            this.jsonfile = filename;
             InitializeComponent();
             BackgroundColor = Color.FromArgb("#333333");
             string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             try
             {
-                imageList = LoadImagesFromJson(exepath + "/Gallerysave.json");
+                imageList = LoadImagesFromJson(exepath + jsonfile);
                 DrawImages();
             }
             catch
             {
-                SaveJsonToFile("", exepath + "/Gallerysave.json");
+                SaveJsonToFile("", exepath + jsonfile);
             }
             
 
@@ -74,7 +76,7 @@ namespace LomaPro
                         var options = new JsonSerializerOptions() { WriteIndented = true };
                         string jsonImages = JsonSerializer.Serialize(imageList, options);
                         string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                        SaveJsonToFile(jsonImages, exepath+ "/Gallerysave.json");
+                        SaveJsonToFile(jsonImages, exepath+ jsonfile);
 
                         image.drawImage(galleryScrollView, ImageExpand, overlay, CloseButton);
                     }

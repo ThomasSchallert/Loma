@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Graphics;
 
@@ -52,6 +53,7 @@ namespace LomaPro
                     VerticalOptions = LayoutOptions.FillAndExpand,
                     HorizontalOptions = LayoutOptions.CenterAndExpand
                 };
+                
                 var title = new Label { Text = cover.Title, FontSize = 20, TextColor = Microsoft.Maui.Graphics.Colors.White };
                 var year = new Label { Text = cover.Year.ToString(), FontSize = 16, TextColor = Microsoft.Maui.Graphics.Colors.White };
                 var location = new Label { Text = cover.Location, FontSize = 16, TextColor = Microsoft.Maui.Graphics.Colors.White };
@@ -61,6 +63,15 @@ namespace LomaPro
                     Children = { frame, title, year, location },
                     VerticalOptions = LayoutOptions.CenterAndExpand
                 };
+                var tapGestureRecognizer = new TapGestureRecognizer();
+                tapGestureRecognizer.Tapped += async (s, e) =>
+                {
+                    string filename = CleanFileName(cover.Title + "_" + cover.Year + "_" + cover.Location);
+                    var galleryPage = new Gallery("/" + filename + ".json");
+                    await Navigation.PushAsync(galleryPage);
+                };
+                stackLayout.GestureRecognizers.Add(tapGestureRecognizer);
+
 
                 ImageStackPanel.Children.Add(stackLayout);
             }
@@ -96,8 +107,16 @@ namespace LomaPro
 
         private async void OnGalleryClicked(object sender, EventArgs e)
         {
-            var galleryPage = new Gallery();
+            var galleryPage = new Gallery("/Gallerysave.json");
             await Navigation.PushAsync(galleryPage);
+        }
+        public static string CleanFileName(string input)
+        {
+            string invalidChars = new string(System.IO.Path.GetInvalidFileNameChars());
+            string pattern = $"[{Regex.Escape(invalidChars)}]";
+            string result = Regex.Replace(input, pattern, "");
+            result = result.Replace(" ", "_");
+            return result;
         }
     }
 }
