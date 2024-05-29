@@ -13,7 +13,6 @@ namespace LomaPro
         public string Title { get; set; }
         public int Year { get; set; }
 
-        public string CoverJsonPath => $"{Year}_{Location}_{Title}.json";
 
         public VacationCover()
         {

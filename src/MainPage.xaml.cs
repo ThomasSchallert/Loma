@@ -4,27 +4,46 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Graphics;
+using System.Text.Json;
+using System.Reflection;
 
 
 namespace LomaPro
 {
     public partial class MainPage : ContentPage
     {
-        private List<VacationCover> vacationCoversList = new List<VacationCover>();
+
         private int x = 0;
+        private List<VacationCover> vacationCoversList = new List<VacationCover>();
 
         public MainPage()
         {
             InitializeComponent();
-            LoadCovers();
+            string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            try
+            {
+                vacationCoversList = LoadCoversFromJson(exepath + "/covers/covers.json");
+                MakeCover();
+            }
+            catch
+            {
+                SaveJsonToFile("", exepath + "/covers/covers.json");
+            }
+            
         }
-
-        private void LoadCovers()
+    
+    
+        static List<VacationCover> LoadCoversFromJson(string path)
         {
-            // Load your covers here
-            // For example:
-            // vacationCoversList.Add(new VacationCover { Image_Path = "image1.jpg", Title = "Title1", Year = 2021, Location = "Location1" });
-            // vacationCoversList.Add(new VacationCover { Image_Path = "image2.jpg", Title = "Title2", Year = 2022, Location = "Location2" });
+            List<VacationCover> covers = null;
+            using (StreamReader stream = new StreamReader(path))
+            {
+                string serializedData = stream.ReadToEnd();
+                // Deserialize the string into a student object
+                covers = JsonSerializer.Deserialize<List<VacationCover>>(serializedData);
+            }
+
+            return covers;
         }
 
         private void MakeCover()
@@ -34,6 +53,9 @@ namespace LomaPro
             if (vacationCoversList.Count > 0)
             {
                 var cover = vacationCoversList[x];
+                string jsonvacationcovers = JsonSerializer.Serialize(vacationCoversList);
+                string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                SaveJsonToFile(jsonvacationcovers, exepath + "/covers/covers.json");
 
                 var image = new Image
                 {
@@ -53,7 +75,7 @@ namespace LomaPro
                     VerticalOptions = LayoutOptions.FillAndExpand,
                     HorizontalOptions = LayoutOptions.CenterAndExpand
                 };
-                
+
                 var title = new Label { Text = cover.Title, FontSize = 20, TextColor = Microsoft.Maui.Graphics.Colors.White };
                 var year = new Label { Text = cover.Year.ToString(), FontSize = 16, TextColor = Microsoft.Maui.Graphics.Colors.White };
                 var location = new Label { Text = cover.Location, FontSize = 16, TextColor = Microsoft.Maui.Graphics.Colors.White };
@@ -67,7 +89,7 @@ namespace LomaPro
                 tapGestureRecognizer.Tapped += async (s, e) =>
                 {
                     string filename = CleanFileName(cover.Title + "_" + cover.Year + "_" + cover.Location);
-                    var galleryPage = new Gallery("/" + filename + ".json");
+                    var galleryPage = new Gallery("/galleries/" + filename + ".json");
                     await Navigation.PushAsync(galleryPage);
                 };
                 stackLayout.GestureRecognizers.Add(tapGestureRecognizer);
@@ -118,5 +140,16 @@ namespace LomaPro
             result = result.Replace(" ", "_");
             return result;
         }
+        static void SaveJsonToFile(string jsonString, string path)
+        {
+            using (StreamWriter stream = new StreamWriter(path, append: false))
+            {
+                stream.WriteLine(jsonString);
+            }
+        }
+
     }
 }
+
+
+
