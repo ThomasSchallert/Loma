@@ -126,12 +126,6 @@ namespace LomaPro
             vacationCoversList.Add(result);
             MakeCover();
         }
-
-        private async void OnGalleryClicked(object sender, EventArgs e)
-        {
-            var galleryPage = new Gallery("/Gallerysave.json");
-            await Navigation.PushAsync(galleryPage);
-        }
         public static string CleanFileName(string input)
         {
             string invalidChars = new string(System.IO.Path.GetInvalidFileNameChars());
