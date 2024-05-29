@@ -21,7 +21,7 @@
 | 01.05 - 05.05|  Grundgalerie erstellt        |
 | 08.05 | Gelerieauserbeitung + Großes Bild auf Klick         |
 | 15.05 | Speichern der Pfade über .json |
-|          |          |
+| 26.05| meherere Gallerien erstellen können|
 |          |          |
 |          |          |
 |          |          |
