@@ -35,7 +35,7 @@
                 ZIndex="1"
                 Margin="0,0,0,20"
                 Clicked="AddImage_Button_Clicked" />
-        
+
         <Button x:Name="CloseButton"
                 Text="X"
                 Clicked="CloseButton_Clicked"
@@ -47,4 +47,7 @@
                 ZIndex="2"
                 IsVisible="False" />
     </Grid>
+
+    <Button x:Name="DeleteButton" ImageSource="delete_icon.svg"/>
+
 </ContentPage>
