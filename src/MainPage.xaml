@@ -19,7 +19,8 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" /> 
+            
         </Grid.ColumnDefinitions>
 
         <Frame Grid.Row="1" Grid.ColumnSpan="3" Margin="10" VerticalOptions="FillAndExpand" BackgroundColor="#2e2f31">

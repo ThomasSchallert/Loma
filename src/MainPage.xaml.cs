@@ -137,6 +137,7 @@ namespace LomaPro
                 {
                     x = vacationCoversList.Count - 1;
                 }
+
                 MakeCover();
             }
         }
