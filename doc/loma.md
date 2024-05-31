@@ -22,7 +22,7 @@
 | 08.05 | Gelerieauserbeitung + Großes Bild auf Klick         |
 | 15.05 | Speichern der Pfade über .json |
 | 26.05| meherere Gallerien erstellen können|
-|          |          |
+| 29.05| Serialisierung der Cover          |
 |          |          |
 |          |          |
 |          |          |
