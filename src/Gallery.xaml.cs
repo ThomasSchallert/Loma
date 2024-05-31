@@ -7,6 +7,7 @@ namespace LomaPro
     public partial class Gallery : ContentPage
     {
 
+
         public List<Image_gal> imageList = new List<Image_gal>();
         private string jsonfile;
 
