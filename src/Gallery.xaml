@@ -46,8 +46,12 @@
                 TextColor="White"
                 ZIndex="2"
                 IsVisible="False" />
+        <ImageButton x:Name="DeleteButton"
+             Source="delete_icon.svg"
+             WidthRequest="27"
+             HeightRequest="27"/>
     </Grid>
 
-    <!--<Button x:Name="DeleteButton" ImageSource="delete_icon.svg"/>-->
+
 
 </ContentPage>
