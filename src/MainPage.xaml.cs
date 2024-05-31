@@ -118,30 +118,6 @@ namespace LomaPro
             }
         }
 
-        private void DeleteHolidayButtonClicked(object sender, EventArgs e)
-        {
-            if (vacationCoversList.Count > 0)
-            {
-                var cover = vacationCoversList[x];
-                string filename = CleanFileName(cover.Title + "_" + cover.Year + "_" + cover.Location);
-                string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                string jsonFilePath = exepath + "/galleries/" + filename + ".json";
-
-                if (File.Exists(jsonFilePath))
-                {
-                    File.Delete(jsonFilePath);
-                }
-
-                vacationCoversList.RemoveAt(x);
-                if (x >= vacationCoversList.Count)
-                {
-                    x = vacationCoversList.Count - 1;
-                }
-                MakeCover();
-            }
-        }
-
-
         private async void AddHolidayButtonClicked(object sender, EventArgs e)
         {
             var addHolidayPage = new Add_Holiday();
