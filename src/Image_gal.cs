@@ -66,9 +66,9 @@ namespace LomaPro
 
         public void expandImage(Image expandImage, VisualElement blurElement, Button closeButton)
         {
-            expandImage.Source = ImageName;
+            expandImage.Source = Imagepath;
             expandImage.IsVisible = true;
-            expandImage.ZIndex = 3;
+            expandImage.ZIndex = 4;
 
             closeButton.IsVisible = true;
 

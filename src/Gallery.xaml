@@ -48,6 +48,6 @@
                 IsVisible="False" />
     </Grid>
 
-    <Button x:Name="DeleteButton" ImageSource="delete_icon.svg"/>
+    <!--<Button x:Name="DeleteButton" ImageSource="delete_icon.svg"/>-->
 
 </ContentPage>
