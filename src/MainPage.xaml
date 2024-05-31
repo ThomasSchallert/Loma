@@ -30,6 +30,7 @@
         <Button x:Name="ButtonLRight" Text="&gt;" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" Grid.Column="2" Grid.Row="1" Clicked="RightButtonClicked" Margin="20" TextColor="#fff" HeightRequest="100" BackgroundColor="#2fe52c"/>
 
         <Button Text="+" HorizontalOptions="Center" VerticalOptions="Center" Grid.ColumnSpan="3" Grid.Row="2" Clicked="AddHolidayButtonClicked" BackgroundColor="#ffffff" TextColor="#222222"/>
+        <Button Text="Delete" HorizontalOptions="Center" VerticalOptions="Center" Grid.ColumnSpan="3" Grid.Row="3" Clicked="DeleteHolidayButtonClicked" BackgroundColor="#ffffff" TextColor="#222222"/>
     </Grid>
 
 </ContentPage>
