@@ -36,23 +36,26 @@ public partial class Add_Holiday : ContentPage
 
     void OnAddButtonClicked(object sender, EventArgs e)
     {
-        string imagePath = selectedFilePath; 
+        string imagePath = selectedFilePath;
         string location = LocationEntry.Text;
         string title = TitleEntry.Text;
-        int year = StartDateEntry.Date.Year;
+        DateTime startDate = StartDateEntry.Date;
+        DateTime endDate = EndDateEntry.Date;
 
         VacationCover vacationCover = new VacationCover
         {
             Image_Path = imagePath,
             Location = location,
             Title = title,
-            Year = year
+            StartDate = startDate,
+            EndDate = endDate
         };
 
         Tcs.SetResult(vacationCover);
 
         Navigation.PopAsync();
     }
+
 
     void OnCancelButtonClicked(object sender, EventArgs e)
     {

@@ -11,15 +11,16 @@ namespace LomaPro
         public string Image_Path { get; set; }
         public string Location { get; set; }
         public string Title { get; set; }
-        public int Year { get; set; }
-
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
 
         public VacationCover()
         {
             Image_Path = string.Empty;
             Location = string.Empty;
             Title = string.Empty;
-            Year = 0;
+            StartDate = DateTime.MinValue;
+            EndDate = DateTime.MinValue;
         }
     }
 }

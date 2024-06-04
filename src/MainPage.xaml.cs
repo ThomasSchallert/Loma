@@ -29,17 +29,16 @@ namespace LomaPro
             {
                 SaveJsonToFile("", exepath + "/covers/covers.json");
             }
-            
+
         }
-    
-    
+
+
         static List<VacationCover> LoadCoversFromJson(string path)
         {
             List<VacationCover> covers = null;
             using (StreamReader stream = new StreamReader(path))
             {
                 string serializedData = stream.ReadToEnd();
-                // Deserialize the string into a student object
                 covers = JsonSerializer.Deserialize<List<VacationCover>>(serializedData);
             }
 
@@ -77,7 +76,7 @@ namespace LomaPro
                 };
 
                 var title = new Label { Text = cover.Title, FontSize = 20, TextColor = Microsoft.Maui.Graphics.Colors.White };
-                var year = new Label { Text = cover.Year.ToString(), FontSize = 16, TextColor = Microsoft.Maui.Graphics.Colors.White };
+                var year = new Label { Text = cover.StartDate.ToShortDateString() + " - " + cover.EndDate.ToShortDateString(), FontSize = 16, TextColor = Microsoft.Maui.Graphics.Colors.White };
                 var location = new Label { Text = cover.Location, FontSize = 16, TextColor = Microsoft.Maui.Graphics.Colors.White };
 
                 var stackLayout = new StackLayout
@@ -88,16 +87,16 @@ namespace LomaPro
                 var tapGestureRecognizer = new TapGestureRecognizer();
                 tapGestureRecognizer.Tapped += async (s, e) =>
                 {
-                    string filename = CleanFileName(cover.Title + "_" + cover.Year + "_" + cover.Location);
+                    string filename = CleanFileName(cover.Title + "_" + cover.StartDate.ToShortDateString() + " - " + cover.EndDate.ToShortDateString() + "_" + cover.Location);
                     var galleryPage = new Gallery("/galleries/" + filename + ".json");
                     await Navigation.PushAsync(galleryPage);
                 };
                 stackLayout.GestureRecognizers.Add(tapGestureRecognizer);
 
-
                 ImageStackPanel.Children.Add(stackLayout);
             }
         }
+
 
 
         private void LeftButtonClicked(object sender, EventArgs e)
@@ -123,7 +122,7 @@ namespace LomaPro
             if (vacationCoversList.Count > 0)
             {
                 var cover = vacationCoversList[x];
-                string filename = CleanFileName(cover.Title + "_" + cover.Year + "_" + cover.Location);
+                string filename = CleanFileName(cover.Title + "_" + cover.StartDate.ToShortDateString() + " - " + cover.EndDate.ToShortDateString() + "_" + cover.Location);
                 string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 string jsonFilePath = exepath + "/galleries/" + filename + ".json";
 
@@ -133,7 +132,7 @@ namespace LomaPro
                 }
 
                 vacationCoversList.RemoveAt(x);
-                if (x >= vacationCoversList.Count)
+                if (x >= vacationCoversList.Count && x > 0)
                 {
                     x = vacationCoversList.Count - 1;
                 }
@@ -169,6 +168,3 @@ namespace LomaPro
 
     }
 }
-
-
-
