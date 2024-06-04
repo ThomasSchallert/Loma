@@ -24,6 +24,8 @@ namespace LomaPro
             }
             catch
             {
+                string galleriesFilepath = System.IO.Path.Combine(exepath, "galleries");
+                System.IO.Directory.CreateDirectory(galleriesFilepath);
                 SaveJsonToFile("", exepath + jsonfile);
             }
             

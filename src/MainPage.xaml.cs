@@ -27,6 +27,8 @@ namespace LomaPro
             }
             catch
             {
+                string coverFilepath = System.IO.Path.Combine(exepath, "covers");
+                System.IO.Directory.CreateDirectory(coverFilepath);
                 SaveJsonToFile("", exepath + "/covers/covers.json");
             }
             
