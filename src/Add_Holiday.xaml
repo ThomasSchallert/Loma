@@ -52,7 +52,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Button Text="Add" StyleClass="addButton" Grid.Column="1" Clicked="OnAddButtonClicked" Margin="5" BackgroundColor="#2fe52c" FontAttributes="Bold"/>
+                <Button x:Name="Add_Button" Text="Add" StyleClass="addButton" Grid.Column="1" Clicked="OnAddButtonClicked" Margin="5" BackgroundColor="#2fe52c" FontAttributes="Bold"/>
                 <Button Text="Cancel" StyleClass="cancelButton" Grid.Column="0" Clicked="OnCancelButtonClicked" Margin="5" BackgroundColor="#2e2f31" FontAttributes="Bold" TextColor="White"/>
 
             </Grid>

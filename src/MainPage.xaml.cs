@@ -144,19 +144,19 @@ namespace LomaPro
         }
 
 
+private async void AddHolidayButtonClicked(object sender, EventArgs e)
+    {
+        var addHolidayPage = new Add_Holiday();
+        await Navigation.PushAsync(addHolidayPage);
+        var result = await addHolidayPage.Tcs.Task;
+        vacationCoversList.Add(result);
+        MakeCover();
+    }       
         //private async void AddHolidayButtonClicked(object sender, EventArgs e)
         //{
-        //    var addHolidayPage = new Add_Holiday();
+        //    var addHolidayPage = new Rechnung_Page();
         //    await Navigation.PushAsync(addHolidayPage);
-        //    var result = await addHolidayPage.Tcs.Task;
-        //    vacationCoversList.Add(result);
-        //    MakeCover();
-        //}       
-        private async void AddHolidayButtonClicked(object sender, EventArgs e)
-        {
-            var addHolidayPage = new Rechnung_Page();
-            await Navigation.PushAsync(addHolidayPage);
-        }
+        //}
         public static string CleanFileName(string input)
         {
             string invalidChars = new string(System.IO.Path.GetInvalidFileNameChars());

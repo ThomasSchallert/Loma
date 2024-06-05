@@ -1,4 +1,5 @@
 using OpenMeteo;
+using System.Security.Cryptography.X509Certificates;
 
 namespace LomaPro;
 
@@ -13,6 +14,7 @@ public partial class Add_Holiday : ContentPage
         Tcs = new TaskCompletionSource<VacationCover>();
         //RunAsync(Test, "London");
     }
+    
 
 
     async void AddImageBtn_Clicked(object sender, EventArgs e)
@@ -44,6 +46,22 @@ public partial class Add_Holiday : ContentPage
         string title = TitleEntry.Text;
         DateTime startDate = StartDateEntry.Date;
         DateTime endDate = EndDateEntry.Date;
+        if(location == null || title == null)
+        {
+            DisplayAlert("Error", "Please fill all the fields", "OK");
+            return;
+        }
+        else if (startDate > endDate)
+        {
+            DisplayAlert("Error", "Start date cannot be greater than end date", "OK");
+            return;
+        }
+        else if (imagePath == null)
+        {
+            DisplayAlert("Error", "Please select an image", "OK");
+            return;
+        }
+
 
         VacationCover vacationCover = new VacationCover
         {
@@ -52,7 +70,9 @@ public partial class Add_Holiday : ContentPage
             Title = title,
             StartDate = startDate,
             EndDate = endDate
+            
         };
+        
 
         Tcs.SetResult(vacationCover);
 
