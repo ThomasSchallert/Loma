@@ -22,7 +22,7 @@
             <Label Text="Location" StyleClass="location" LineBreakMode="WordWrap" FontAttributes="Bold" TextColor="White"/>
             <Editor x:Name="LocationEntry" HeightRequest="60" AutoSize="TextChanges" TextColor="White" FontSize="20"/>
     
-            <Label Text="Description" StyleClass="description" LineBreakMode="WordWrap" FontAttributes="Bold" TextColor="White"/>
+            <Label x:Name="Test"  Text="Description" StyleClass="description" LineBreakMode="WordWrap" FontAttributes="Bold" TextColor="White"/>
             <Editor x:Name="DescriptionEntry" HeightRequest="60" AutoSize="TextChanges" TextColor="White" FontSize="20"/>
 
             <Grid>

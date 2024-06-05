@@ -1,3 +1,5 @@
+using OpenMeteo;
+
 namespace LomaPro;
 
 public partial class Add_Holiday : ContentPage
@@ -9,6 +11,7 @@ public partial class Add_Holiday : ContentPage
     {
         InitializeComponent();
         Tcs = new TaskCompletionSource<VacationCover>();
+        //RunAsync(Test, "London");
     }
 
 
@@ -55,6 +58,20 @@ public partial class Add_Holiday : ContentPage
 
         Navigation.PopAsync();
     }
+    //static async void RunAsync(Label test, string loc)
+    //{
+    //    try
+    //    {
+    //        OpenMeteo.OpenMeteoClient client = new OpenMeteo.OpenMeteoClient();
+    //        WeatherForecast weatherData = await client.QueryAsync(loc);
+    //        test.Text = $"Weather in {loc}: {weatherData.Current.Temperature} {weatherData.CurrentUnits.Temperature}";
+    //    }
+    //    catch
+    //    {
+            
+    //    }
+        
+    //}
 
 
     void OnCancelButtonClicked(object sender, EventArgs e)

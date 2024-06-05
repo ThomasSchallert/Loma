@@ -28,17 +28,13 @@ namespace LomaPro
                 System.IO.Directory.CreateDirectory(galleriesFilepath);
                 SaveJsonToFile("", exepath + jsonfile);
             }
-            
-
         }
         static List<Image_gal> LoadImagesFromJson(string path)
         {
             List<Image_gal> imageList = null;
-            // Load from file
             using (StreamReader stream = new StreamReader(path))
             {
                 string serializedData = stream.ReadToEnd();
-                // Deserialize the string into a student object
                 imageList = JsonSerializer.Deserialize<List<Image_gal>>(serializedData);
                 
             }
