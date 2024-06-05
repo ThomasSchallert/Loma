@@ -56,7 +56,7 @@
                 <Button Text="Cancel" StyleClass="cancelButton" Grid.Column="0" Clicked="OnCancelButtonClicked" Margin="5" BackgroundColor="#2e2f31" FontAttributes="Bold" TextColor="White"/>
 
             </Grid>
-
+            
         </StackLayout>
     </ScrollView>
 

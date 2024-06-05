@@ -79,10 +79,22 @@
 	  <MauiXaml Update="Gallery.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="NewGroupPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Rechnung_Page.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="Project_Data\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Rechnung_Page.xaml.cs">
+	    <DependentUpon>Rechnung_Page.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 </Project>
