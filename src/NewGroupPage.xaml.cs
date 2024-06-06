@@ -14,12 +14,27 @@ namespace LomaPro
 
         private void OnAddGroupButtonClicked(object sender, EventArgs e)
         {
-            var groupName = GroupNameEntry.Text;
-            var groupSize = int.Parse(GroupSizeEntry.Text);
+            try
+            {
+                if (string.IsNullOrEmpty(GroupNameEntry.Text) || string.IsNullOrEmpty(GroupSizeEntry.Text))
+                {
+                    DisplayAlert("Error", "Please fill all the fields", "OK");
+                    return;
+                }
+                var groupName = GroupNameEntry.Text;
 
-            var newGroup = new Group { Name = groupName, Size = groupSize };
+                var groupSize = int.Parse(GroupSizeEntry.Text);
 
-            GroupAdded?.Invoke(newGroup);
+                var newGroup = new Group { Name = groupName, Size = groupSize };
+                GroupAdded?.Invoke(newGroup);
+            }
+            catch (Exception)
+            {
+                DisplayAlert("Error", "Only enter Numbers", "OK");
+                return;
+            }
+
+
 
             Navigation.PopAsync();
         }
@@ -29,5 +44,8 @@ namespace LomaPro
     {
         public string Name { get; set; }
         public int Size { get; set; }
+        public double HasToPay { get; set; }
+
+        public Picker picker { get; set; }
     }
 }

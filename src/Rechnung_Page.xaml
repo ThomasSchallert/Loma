@@ -25,7 +25,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Button Text="Ausgabe Hinzufügen" Grid.Column="0" Margin="0,0,10,0" />
+            <Button Text="Ausgabe Hinzufügen" Grid.Column="0" Margin="0,0,10,0" Clicked="Add_Bill" />
             <Button Text="Bearbeiten" Grid.Column="1" Margin="10,0,0,0" />
         </Grid>
 
