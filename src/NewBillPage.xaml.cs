@@ -1,8 +1,15 @@
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using System.Text.Json;
+using Microsoft.Maui.Controls;
+
 namespace LomaPro;
 
 public partial class NewBillPage : ContentPage
 {
     public List<Group> groups = new List<Group>();
+
     public NewBillPage()
     {
         InitializeComponent();
@@ -35,8 +42,6 @@ public partial class NewBillPage : ContentPage
                 ItemsSource = Enumerable.Range(0, group.Size + 1).Select(i => i.ToString()).ToList(),
                 HorizontalOptions = LayoutOptions.End,
                 SelectedIndex = 0
-                
-                
             };
             group.picker = picker;
             grid.Children.Add(nameLabel);
@@ -57,16 +62,17 @@ public partial class NewBillPage : ContentPage
         int howmany = 0;
         try
         {
-             gesamtpreis = Convert.ToDouble(BetragEntry.Text);
+            gesamtpreis = Convert.ToDouble(BetragEntry.Text);
         }
         catch (Exception)
         {
             await DisplayAlert("Error", "Please enter a valid number", "OK");
             return;
         }
-        
+
         foreach (var group in groups)
         {
+            group.SelectedIndex = group.picker.SelectedIndex; // Speichere den ausgewählten Index
             howmany += group.picker.SelectedIndex;
         }
         if (howmany == 0)
@@ -78,7 +84,7 @@ public partial class NewBillPage : ContentPage
         double payed = 0;
         foreach (var group in groups)
         {
-            group.HasToPay += Math.Round((group.picker.SelectedIndex)*personhastopay,2);
+            group.HasToPay += Math.Round((group.picker.SelectedIndex) * personhastopay, 2);
             int index = group.picker.SelectedIndex;
             payed += Math.Round((group.picker.SelectedIndex) * personhastopay, 2);
         }
@@ -88,10 +94,10 @@ public partial class NewBillPage : ContentPage
             groups[random.Next(groups.Count - 1)].HasToPay += gesamtpreis - payed;
         }
 
+
         await Navigation.PopAsync();
-
-
     }
+
     private async void OnCancelClicked(object sender, EventArgs e)
     {
         await Navigation.PopAsync();

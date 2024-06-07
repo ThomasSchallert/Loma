@@ -1,7 +1,8 @@
 using Microsoft.Maui.Controls;
 using System;
 using System.Collections.Generic;
-
+using System.Reflection;
+using System.Text.Json;
 namespace LomaPro
 {
     public partial class Rechnung_Page : ContentPage
@@ -12,6 +13,19 @@ namespace LomaPro
         public Rechnung_Page()
         {
             InitializeComponent();
+            string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            try
+            {
+
+                groups = LoadgroupsFromJson(exepath + "/groups/groups.json");
+                UpdateUI();
+            }
+            catch
+            {
+                string coverFilepath = System.IO.Path.Combine(exepath, "groups");
+                System.IO.Directory.CreateDirectory(coverFilepath);
+                SaveJsonToFile("", exepath + "/groups/groups.json");
+            }
         }
 
         public void AddGroupToList(Group group)
@@ -27,6 +41,9 @@ namespace LomaPro
         {
             // Leeren Sie das StackLayout
             GroupStackLayout.Children.Clear();
+            string jsonvacationgroups = JsonSerializer.Serialize(groups);
+            string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            SaveJsonToFile(jsonvacationgroups, exepath + "/groups/groups.json");
 
             // Fügen Sie für jede Gruppe in der Liste ein Label zum StackLayout hinzu
             foreach (var group in groups)
@@ -48,6 +65,7 @@ namespace LomaPro
                 frame.Content = grid;
 
                 GroupStackLayout.Children.Add(frame);
+
             }
         }
 
@@ -73,6 +91,24 @@ namespace LomaPro
                 UpdateUI();
             };
             await Navigation.PushAsync(newBillPage);
+        }
+        static List<Group> LoadgroupsFromJson(string path)
+        {
+            List<Group> groups = null;
+            using (StreamReader stream = new StreamReader(path))
+            {
+                string serializedData = stream.ReadToEnd();
+                groups = JsonSerializer.Deserialize<List<Group>>(serializedData);
+            }
+
+            return groups;
+        }
+        static void SaveJsonToFile(string jsonString, string path)
+        {
+            using (StreamWriter stream = new StreamWriter(path, append: false))
+            {
+                stream.WriteLine(jsonString);
+            }
         }
     }
 }

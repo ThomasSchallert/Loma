@@ -1,5 +1,6 @@
 using Microsoft.Maui.Controls;
 using System;
+using System.Text.Json.Serialization;
 
 namespace LomaPro
 {
@@ -46,6 +47,18 @@ namespace LomaPro
         public int Size { get; set; }
         public double HasToPay { get; set; }
 
+        [JsonIgnore]
         public Picker picker { get; set; }
+
+        public int SelectedIndex { get; set; }
+
+        public Group()
+        {
+            Name = "";
+            Size = 0;
+            HasToPay = 0;
+            picker = new Picker();
+        }
     }
+
 }
