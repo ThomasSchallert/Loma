@@ -16,7 +16,7 @@
             </StackLayout>
         </ScrollView>
 
-
+        
         <Button Text="+" Grid.Row="0" HorizontalOptions="End" VerticalOptions="End" Margin="10" Clicked="Add_Group" />
 
         <Grid Grid.Row="1" Margin="10">
