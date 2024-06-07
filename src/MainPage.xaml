@@ -19,8 +19,8 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" /> 
-            
+            <ColumnDefinition Width="*" />
+
         </Grid.ColumnDefinitions>
 
         <Frame Grid.Row="1" Grid.ColumnSpan="3" Margin="10" VerticalOptions="FillAndExpand" BackgroundColor="#2e2f31">
@@ -32,5 +32,4 @@
         <Button Text="+" HorizontalOptions="Center" VerticalOptions="Center" Grid.ColumnSpan="3" Grid.Row="2" Clicked="AddHolidayButtonClicked" BackgroundColor="#ffffff" TextColor="#222222"/>
         <Button Text="Delete" HorizontalOptions="Center" VerticalOptions="Center" Grid.ColumnSpan="3" Grid.Row="3" Clicked="DeleteHolidayButtonClicked" BackgroundColor="#ffffff" TextColor="#222222"/>
     </Grid>
-
 </ContentPage>

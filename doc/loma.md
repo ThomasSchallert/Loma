@@ -23,8 +23,8 @@
 | 15.05 | Speichern der Pfade über .json |
 | 26.05| meherere Gallerien erstellen können|
 | 29.05| Serialisierung der Cover          |
-|          |          |
-|          |          |
+|01.06| Mit logging begonnen |
+| 05.06| Logging fertig stellen |
 |          |          |
 |          |          |
 |          |          |

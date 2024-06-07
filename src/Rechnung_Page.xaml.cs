@@ -37,7 +37,7 @@ namespace LomaPro
                 grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
                 var nameLabel = new Label { Text = group.Name };
-                var sizeLabel = new Label { Text = $"Personen: {group.Size}", HorizontalOptions = LayoutOptions.End };
+                var sizeLabel = new Label { Text = $"Personen: {group.Size}, Zu zahlender Betrag: {group.HasToPay}€", HorizontalOptions = LayoutOptions.End };
 
                 grid.Children.Add(nameLabel);
                 Grid.SetColumn(nameLabel, 0);
@@ -62,6 +62,17 @@ namespace LomaPro
 
             // Öffnen Sie die neue Seite
             await Navigation.PushAsync(newGroupPage);
+        }
+        public async void Add_Bill(object sender, EventArgs e)
+        {
+            var newBillPage = new NewBillPage();
+            newBillPage.UpdateUI(groups);
+            newBillPage.Disappearing += async (s, args) =>
+            {
+                groups = newBillPage.groups;
+                UpdateUI();
+            };
+            await Navigation.PushAsync(newBillPage);
         }
     }
 }
