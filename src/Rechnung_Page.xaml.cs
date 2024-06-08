@@ -33,21 +33,17 @@ namespace LomaPro
 
         public void AddGroupToList(Group group)
         {
-            // Fügen Sie die Gruppe zur Liste hinzu
             groups.Add(group);
-            // Aktualisieren Sie die Benutzeroberfläche, um die neue Gruppe anzuzeigen
             UpdateUI();
         }
 
         private void UpdateUI()
         {
-            // Leeren Sie das StackLayout
             GroupStackLayout.Children.Clear();
             string jsonvacationgroups = JsonSerializer.Serialize(groups);
             string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             SaveJsonToFile(jsonvacationgroups, exepath + "/groups/groups.json");
 
-            // Fügen Sie für jede Gruppe in der Liste ein Label zum StackLayout hinzu
             foreach (var group in groups)
             {
                 var frame = new Frame
@@ -78,13 +74,10 @@ namespace LomaPro
 
         public async void Add_Group(object sender, EventArgs e)
         {
-            // Erstellen Sie eine neue Seite, auf der der Benutzer die Details der Gruppe eingeben kann
             var newGroupPage = new NewGroupPage();
 
-            // Fügen Sie einen Event-Handler hinzu, der aufgerufen wird, wenn die Gruppendetails eingegeben wurden
             newGroupPage.GroupAdded += AddGroupToList;
 
-            // Öffnen Sie die neue Seite
             await Navigation.PushAsync(newGroupPage);
         }
 
@@ -134,5 +127,15 @@ namespace LomaPro
                 Logging.logger.Error(ex, "Failed to save to JSON file.");
             }
         }
+        public void calcDebts()
+        {
+            List<(string groupName, double debt)> debts = new List<(string groupName, double debt)>();
+
+            foreach (var group in groups)
+            {
+                
+            }
+        }
+
     }
 }

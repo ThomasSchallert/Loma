@@ -47,18 +47,30 @@ public partial class NewBillPage : ContentPage
                 SelectedIndex = 0
             };
             group.picker = picker;
+
+            var payerPicker = new Picker
+            {
+                Title = "Bezahlt von",
+                ItemsSource = groups.Select(g => g.Name).ToList(), 
+                HorizontalOptions = LayoutOptions.End,
+                SelectedIndex = 0
+            };
+
             grid.Children.Add(nameLabel);
             Grid.SetColumn(nameLabel, 0);
 
             grid.Children.Add(picker);
-            Grid.SetColumn(picker, 2);
+            Grid.SetColumn(picker, 1);
+
+            grid.Children.Add(payerPicker);
+            Grid.SetColumn(payerPicker, 2);
 
             frame.Content = grid;
 
             GroupStackLayout.Children.Add(frame);
         }
-
     }
+
 
     private async void OnOkClicked(object sender, EventArgs e)
     {
@@ -76,7 +88,7 @@ public partial class NewBillPage : ContentPage
 
         foreach (var group in groups)
         {
-            group.SelectedIndex = group.picker.SelectedIndex; // Speichere den ausgewählten Index
+            group.SelectedIndex = group.picker.SelectedIndex;
             howmany += group.picker.SelectedIndex;
         }
 
