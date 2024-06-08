@@ -1,8 +1,10 @@
 using Microsoft.Maui.Controls;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Text.Json;
+
 namespace LomaPro
 {
     public partial class Rechnung_Page : ContentPage
@@ -16,12 +18,13 @@ namespace LomaPro
             string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             try
             {
-
                 groups = LoadgroupsFromJson(exepath + "/groups/groups.json");
+                Logging.logger.Information("Loadet JSON successful.");
                 UpdateUI();
             }
-            catch
+            catch (Exception ex)
             {
+                Logging.logger.Error(ex, "Failed to load groups from JSON. Creating a new directory and file.");
                 string coverFilepath = System.IO.Path.Combine(exepath, "groups");
                 System.IO.Directory.CreateDirectory(coverFilepath);
                 SaveJsonToFile("", exepath + "/groups/groups.json");
@@ -32,7 +35,6 @@ namespace LomaPro
         {
             // Fügen Sie die Gruppe zur Liste hinzu
             groups.Add(group);
-
             // Aktualisieren Sie die Benutzeroberfläche, um die neue Gruppe anzuzeigen
             UpdateUI();
         }
@@ -48,7 +50,13 @@ namespace LomaPro
             // Fügen Sie für jede Gruppe in der Liste ein Label zum StackLayout hinzu
             foreach (var group in groups)
             {
-                var frame = new Frame { BorderColor = Microsoft.Maui.Graphics.Colors.LightGray, CornerRadius = 5, Padding = 10, Margin = 10 };
+                var frame = new Frame
+                {
+                    BorderColor = Microsoft.Maui.Graphics.Colors.LightGray,
+                    CornerRadius = 5,
+                    Padding = 10,
+                    Margin = 10
+                };
                 var grid = new Grid();
                 grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
                 grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
@@ -65,10 +73,8 @@ namespace LomaPro
                 frame.Content = grid;
 
                 GroupStackLayout.Children.Add(frame);
-
             }
         }
-
 
         public async void Add_Group(object sender, EventArgs e)
         {
@@ -81,33 +87,51 @@ namespace LomaPro
             // Öffnen Sie die neue Seite
             await Navigation.PushAsync(newGroupPage);
         }
+
         public async void Add_Bill(object sender, EventArgs e)
         {
             var newBillPage = new NewBillPage();
             newBillPage.UpdateUI(groups);
-            newBillPage.Disappearing += async (s, args) =>
+            newBillPage.Disappearing += (s, args) =>
             {
                 groups = newBillPage.groups;
                 UpdateUI();
             };
             await Navigation.PushAsync(newBillPage);
         }
+
         static List<Group> LoadgroupsFromJson(string path)
         {
-            List<Group> groups = null;
-            using (StreamReader stream = new StreamReader(path))
+            try
             {
-                string serializedData = stream.ReadToEnd();
-                groups = JsonSerializer.Deserialize<List<Group>>(serializedData);
+                using (StreamReader stream = new StreamReader(path))
+                {
+                    string serializedData = stream.ReadToEnd();
+                    var groups = JsonSerializer.Deserialize<List<Group>>(serializedData);
+                    Logging.logger.Information("loaded successfully from JSON file.");
+                    return groups;
+                }
             }
-
-            return groups;
+            catch (Exception ex)
+            {
+                Logging.logger.Error(ex, "Failed to load from JSON file.");
+                return new List<Group>();
+            }
         }
+
         static void SaveJsonToFile(string jsonString, string path)
         {
-            using (StreamWriter stream = new StreamWriter(path, append: false))
+            try
             {
-                stream.WriteLine(jsonString);
+                using (StreamWriter stream = new StreamWriter(path, append: false))
+                {
+                    stream.WriteLine(jsonString);
+                }
+                Logging.logger.Information("successfully saved to JSON file.");
+            }
+            catch (Exception ex)
+            {
+                Logging.logger.Error(ex, "Failed to save to JSON file.");
             }
         }
     }

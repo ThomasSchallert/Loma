@@ -12,7 +12,7 @@ namespace LomaPro
     {
         static public Logger logger = new LoggerConfiguration()
             .WriteTo.File("log-.txt", rollingInterval:
-            RollingInterval.Day, retainedFileCountLimit: 7).CreateLogger();
+            RollingInterval.Day, retainedFileCountLimit: 15).CreateLogger();
 
     }
 
