@@ -110,6 +110,7 @@ namespace LomaPro
             {
                 x--;
                 MakeCover();
+                Logging.logger.Information("Left button clicked");
             }
         }
 
@@ -119,7 +120,9 @@ namespace LomaPro
             {
                 x++;
                 MakeCover();
+                Logging.logger.Information("Right button clicked");
             }
+
         }
 
         private void DeleteHolidayButtonClicked(object sender, EventArgs e)
@@ -134,12 +137,14 @@ namespace LomaPro
                 if (File.Exists(jsonFilePath))
                 {
                     File.Delete(jsonFilePath);
+                    Logging.logger.Information("Gallery deleted");
                 }
 
                 vacationCoversList.RemoveAt(x);
                 if (x >= vacationCoversList.Count && x > 0)
                 {
                     x = vacationCoversList.Count - 1;
+                    Logging.logger.Information("Index changed");
                 }
 
                 MakeCover();
@@ -168,6 +173,7 @@ namespace LomaPro
             string pattern = $"[{Regex.Escape(invalidChars)}]";
             string result = Regex.Replace(input, pattern, "");
             result = result.Replace(" ", "_");
+            Logging.logger.Information("Filename cleaned");
             return result;
         }
         static void SaveJsonToFile(string jsonString, string path)
@@ -176,6 +182,7 @@ namespace LomaPro
             {
                 stream.WriteLine(jsonString);
             }
+            Logging.logger.Information("Saved json to file");
         }
 
     }

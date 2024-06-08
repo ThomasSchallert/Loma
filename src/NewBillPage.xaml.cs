@@ -58,6 +58,7 @@ public partial class NewBillPage : ContentPage
 
             GroupStackLayout.Children.Add(frame);
         }
+        Logging.logger.Information("Updated UI");
 
     }
 
@@ -70,6 +71,7 @@ public partial class NewBillPage : ContentPage
             gesamtpreis = Convert.ToDouble(BetragEntry.Text); 
             artikel.Name = BezeichnungEntry.Text;
             artikel.Price = gesamtpreis;
+            Logging.logger.Information("articel created");
         }
         catch (Exception ex)
         {
@@ -88,6 +90,7 @@ public partial class NewBillPage : ContentPage
         {
             Logging.logger.Warning("No persons selected.");
             await DisplayAlert("Error", "Please select at least one person", "OK");
+            Logging.logger.Warning("No persons selected.");
             return;
         }
 
@@ -99,6 +102,7 @@ public partial class NewBillPage : ContentPage
             int index = group.picker.SelectedIndex;
             payed += Math.Round((group.picker.SelectedIndex) * personhastopay, 2);
         }
+        Logging.logger.Information("Updated price");
 
         if (payed != gesamtpreis)
         {
@@ -114,5 +118,6 @@ public partial class NewBillPage : ContentPage
     private async void OnCancelClicked(object sender, EventArgs e)
     {
         await Navigation.PopAsync();
+        Logging.logger.Information("Canceled");
     }
 }

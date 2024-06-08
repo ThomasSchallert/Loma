@@ -9,17 +9,15 @@ public partial class RechnungAnsehenPage : ContentPage
     public RechnungAnsehenPage()
     {
         InitializeComponent();
+        Logging.logger.Information("Rechnung Page opened");
         string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         try
         {
 
             Articels = LoadarticelsFromJson(exepath + "/artikel/artikel.json");
-            
-            Logging.logger.Information("Loaded Rechnung from json");
         }
         catch
         {
-            UpdateUI();
             string coverFilepath = System.IO.Path.Combine(exepath, "artikel");
             System.IO.Directory.CreateDirectory(coverFilepath);
             SaveJsonToFile("", exepath + "/artikel/artikel.json");
@@ -58,6 +56,7 @@ public partial class RechnungAnsehenPage : ContentPage
             RechnungStackLayout.Children.Add(frame);
 
         }
+        Logging.logger.Information("Updated UI");
     }
 
 
@@ -69,6 +68,7 @@ public partial class RechnungAnsehenPage : ContentPage
             string serializedData = stream.ReadToEnd();
             Articels = JsonSerializer.Deserialize<List<Artikel>>(serializedData);
         }
+        Logging.logger.Information("Loaded Articels from json");
 
         return Articels;
     }

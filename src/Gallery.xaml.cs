@@ -12,6 +12,7 @@ namespace LomaPro
 
         public Gallery(string filename)
         {
+            Logging.logger.Information("Gallery Page opened");
             this.jsonfile = filename;
             InitializeComponent();
             BackgroundColor = Color.FromArgb("#333333");
@@ -49,6 +50,7 @@ namespace LomaPro
             {
                 image.drawImage(galleryScrollView, ImageExpand, overlay, CloseButton);
             }
+            Logging.logger.Information("Drew images");
         }
 
 
@@ -88,7 +90,7 @@ namespace LomaPro
             catch (Exception ex)
             {
                 Console.WriteLine($"Exception: {ex}");
-                Console.WriteLine(ex.ToString());
+                Logging.logger.Error("Error adding image");
             }
         }
         static void SaveJsonToFile(string jsonString, string path)
@@ -104,6 +106,7 @@ namespace LomaPro
         private void AddImage_Button_Clicked(object sender, EventArgs e)
         {
             addImage();
+            Logging.logger.Information("Add image button clicked");
         }
 
         private void CloseButton_Clicked(object sender, EventArgs e)
@@ -115,6 +118,7 @@ namespace LomaPro
             overlay.Color = Colors.Transparent;
 
             CloseButton.IsVisible = false;
+            Logging.logger.Information("Big image closed");
         }
     }
 }

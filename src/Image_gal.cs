@@ -18,6 +18,7 @@ namespace LomaPro
             Imagedescription = imagedescription;
             Imagepath = imagepath;
             ImageName = imagename;
+            Logging.logger.Information("Image created");
         }
 
         public void drawImage(ScrollView galleryScrollView, Image expandedimage, VisualElement blurElement, Button closeButton)
@@ -79,6 +80,7 @@ namespace LomaPro
                 boxView.Color = Colors.Black.MultiplyAlpha((float)0.9);
                 boxView.IsVisible = true;
             }
+            Logging.logger.Information("Image expanded");
 
         }
 

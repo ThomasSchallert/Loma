@@ -1,4 +1,5 @@
 using Microsoft.Maui.Controls;
+using Serilog.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,6 +17,7 @@ namespace LomaPro
         public Rechnung_Page()
         {
             InitializeComponent();
+            Logging.logger.Information("Rechnung Page opened");
             string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             try
             {
@@ -38,6 +40,7 @@ namespace LomaPro
         {
             // Fügen Sie die Gruppe zur Liste hinzu
             groups.Add(group);
+            Logging.logger.Information("Added group to list");
 
             // Aktualisieren Sie die Benutzeroberfläche, um die neue Gruppe anzuzeigen
             UpdateUI();
@@ -73,6 +76,7 @@ namespace LomaPro
                 GroupStackLayout.Children.Add(frame);
 
             }
+            Logging.logger.Information("Updated UI");
         }
 
 
@@ -94,7 +98,11 @@ namespace LomaPro
             newBillPage.Disappearing += async (s, args) =>
             {
                 groups = newBillPage.groups;
-                if (newBillPage.artikel != null) { Articels.Add(newBillPage.artikel); }
+                if (newBillPage.artikel != null) 
+                {
+                    Articels.Add(newBillPage.artikel); 
+                    Logging.logger.Information("Added Articel to list");
+                    }
                 
                 UpdateUI();
             };
@@ -115,6 +123,7 @@ namespace LomaPro
                 string serializedData = stream.ReadToEnd();
                 groups = JsonSerializer.Deserialize<List<Group>>(serializedData);
             }
+            Logging.logger.Information("Loaded groups from json");
 
             return groups;
         }

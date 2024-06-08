@@ -21,6 +21,7 @@ namespace LomaPro
                 {
                     Logging.logger.Warning("Group name or size entry is empty.");
                     DisplayAlert("Error", "Please fill all the fields", "OK");
+                    Logging.logger.Error("Not all fields selected");
                     return;
                 }
 
@@ -28,8 +29,8 @@ namespace LomaPro
                 var groupSize = int.Parse(GroupSizeEntry.Text);
 
                 var newGroup = new Group { Name = groupName, Size = groupSize };
-
                 GroupAdded?.Invoke(newGroup);
+                Logging.logger.Information("Group added");
             }
             catch (Exception ex)
             {
