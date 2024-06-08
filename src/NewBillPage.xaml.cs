@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text.Json;
 using Microsoft.Maui.Controls;
@@ -19,6 +21,7 @@ public partial class NewBillPage : ContentPage
     {
         this.groups = groups;
         GroupStackLayout.Children.Clear();
+
         foreach (var group in groups)
         {
             var frame = new Frame
@@ -54,6 +57,7 @@ public partial class NewBillPage : ContentPage
 
             GroupStackLayout.Children.Add(frame);
         }
+
     }
 
     private async void OnOkClicked(object sender, EventArgs e)
@@ -62,10 +66,10 @@ public partial class NewBillPage : ContentPage
         int howmany = 0;
         try
         {
-            gesamtpreis = Convert.ToDouble(BetragEntry.Text);
-        }
-        catch (Exception)
+            gesamtpreis = Convert.ToDouble(BetragEntry.Text);        }
+        catch (Exception ex)
         {
+            Logging.logger.Error(ex, "Invalid datatype.");
             await DisplayAlert("Error", "Please enter a valid number", "OK");
             return;
         }
@@ -75,11 +79,14 @@ public partial class NewBillPage : ContentPage
             group.SelectedIndex = group.picker.SelectedIndex; // Speichere den ausgewählten Index
             howmany += group.picker.SelectedIndex;
         }
+
         if (howmany == 0)
         {
+            Logging.logger.Warning("No persons selected.");
             await DisplayAlert("Error", "Please select at least one person", "OK");
             return;
         }
+
         double personhastopay = gesamtpreis / howmany;
         double payed = 0;
         foreach (var group in groups)
@@ -88,12 +95,13 @@ public partial class NewBillPage : ContentPage
             int index = group.picker.SelectedIndex;
             payed += Math.Round((group.picker.SelectedIndex) * personhastopay, 2);
         }
+
         if (payed != gesamtpreis)
         {
             Random random = new Random();
-            groups[random.Next(groups.Count - 1)].HasToPay += gesamtpreis - payed;
+            groups[random.Next(groups.Count)].HasToPay += gesamtpreis - payed;
+            Logging.logger.Warning("Adjustment made for rounding differences.");
         }
-
 
         await Navigation.PopAsync();
     }

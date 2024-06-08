@@ -1,7 +1,6 @@
 using System.Reflection;
 using System.Text.Json;
 
-
 namespace LomaPro
 {
     public partial class Gallery : ContentPage
@@ -27,6 +26,7 @@ namespace LomaPro
                 string galleriesFilepath = System.IO.Path.Combine(exepath, "galleries");
                 System.IO.Directory.CreateDirectory(galleriesFilepath);
                 SaveJsonToFile("", exepath + jsonfile);
+                
             }
         }
         static List<Image_gal> LoadImagesFromJson(string path)
@@ -36,7 +36,7 @@ namespace LomaPro
             {
                 string serializedData = stream.ReadToEnd();
                 imageList = JsonSerializer.Deserialize<List<Image_gal>>(serializedData);
-                
+
             }
 
             return imageList;
@@ -75,11 +75,11 @@ namespace LomaPro
                         var options = new JsonSerializerOptions() { WriteIndented = true };
                         string jsonImages = JsonSerializer.Serialize(imageList, options);
                         string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                        SaveJsonToFile(jsonImages, exepath+ jsonfile);
+                        SaveJsonToFile(jsonImages, exepath + jsonfile);
 
                         image.drawImage(galleryScrollView, ImageExpand, overlay, CloseButton);
                     }
-                    
+
                 }
             }
             catch (Exception ex)
@@ -90,7 +90,7 @@ namespace LomaPro
         static void SaveJsonToFile(string jsonString, string path)
         {
             using (StreamWriter stream = new StreamWriter(path, append: false))
-            { 
+            {
                 stream.WriteLine(jsonString);
             }
         }
