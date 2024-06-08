@@ -11,6 +11,7 @@ namespace LomaPro;
 public partial class NewBillPage : ContentPage
 {
     public List<Group> groups = new List<Group>();
+    public Artikel artikel = new Artikel();
 
     public NewBillPage()
     {
@@ -66,7 +67,10 @@ public partial class NewBillPage : ContentPage
         int howmany = 0;
         try
         {
-            gesamtpreis = Convert.ToDouble(BetragEntry.Text);        }
+            gesamtpreis = Convert.ToDouble(BetragEntry.Text); 
+            artikel.Name = BezeichnungEntry.Text;
+            artikel.Price = gesamtpreis;
+        }
         catch (Exception ex)
         {
             Logging.logger.Error(ex, "Invalid datatype.");
@@ -99,9 +103,10 @@ public partial class NewBillPage : ContentPage
         if (payed != gesamtpreis)
         {
             Random random = new Random();
-            groups[random.Next(groups.Count)].HasToPay += gesamtpreis - payed;
+            groups[random.Next(groups.Count)].HasToPay += Math.Round(gesamtpreis - payed,2);
             Logging.logger.Warning("Adjustment made for rounding differences.");
         }
+        
 
         await Navigation.PopAsync();
     }

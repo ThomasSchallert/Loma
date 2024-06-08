@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LomaPro.RechnungAnsehenPage"
+             Title="Rechnung">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ScrollView Grid.Row="0">
+            <StackLayout x:Name="RechnungStackLayout" Margin="10">
+                <!-- Gruppen werden hier dynamisch hinzugefügt -->
+            </StackLayout>
+        </ScrollView>
+
+        <Button Text="Rechnung schließen" Grid.Row="1" HorizontalOptions="FillAndExpand" Margin="10" />
+    </Grid>
+</ContentPage>

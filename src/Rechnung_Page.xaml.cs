@@ -11,6 +11,7 @@ namespace LomaPro
     {
         // Liste der Gruppen
         private List<Group> groups = new List<Group>();
+        private List<Artikel> Articels = new List<Artikel>();
 
         public Rechnung_Page()
         {
@@ -93,9 +94,18 @@ namespace LomaPro
             newBillPage.Disappearing += async (s, args) =>
             {
                 groups = newBillPage.groups;
+                if (newBillPage.artikel != null) { Articels.Add(newBillPage.artikel); }
+                
                 UpdateUI();
             };
             await Navigation.PushAsync(newBillPage);
+        }
+        public async void Show_Bill(object sender, EventArgs e)
+        {
+            var rechnungAnsehenPage = new RechnungAnsehenPage();
+            rechnungAnsehenPage.Articels = Articels;
+            rechnungAnsehenPage.UpdateUI();
+            await Navigation.PushAsync(rechnungAnsehenPage);
         }
         static List<Group> LoadgroupsFromJson(string path)
         {

@@ -85,6 +85,9 @@
 	  <MauiXaml Update="NewGroupPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="RechnungAnsehenPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Rechnung_Page.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
