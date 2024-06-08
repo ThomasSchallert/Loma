@@ -30,11 +30,11 @@
 | 26.05 | Für jeden Urlaub eine Gallerie machen & alle in eigenes .json File speichern|
 | 29.05 | Die cover der Urlaube serialisieren         |
 | 04.06 | Ordnerstrucktur für .json files erstellt |
-| 05.06 | Wetter API einbauen (Wurde auf eis gelegt, aufgrund der Sinnhaftigkeit) |
+| 05.06 | Wetter API einbauen (Wurde auf eis gelegt, aufgrund der Sinnhaftigkeit u. Zeit) |
 | 05.06 | Eingaben sichern |
 | 06.06 | An der Aufteilung von Kosten unter verschienen Gruppen arbeiten|
 | 07.06 | Serialisierung der Gruppen & Kosten|
-|          |          |
+| 08.06 | Logging |
 |          |          |
 |          |          |
 |          |          |
