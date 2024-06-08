@@ -30,6 +30,7 @@ namespace LomaPro
                 string coverFilepath = System.IO.Path.Combine(exepath, "covers");
                 System.IO.Directory.CreateDirectory(coverFilepath);
                 SaveJsonToFile("", exepath + "/covers/covers.json");
+                Logging.logger.Information("No covers found created new directory");
             }
 
         }
@@ -43,6 +44,7 @@ namespace LomaPro
                 string serializedData = stream.ReadToEnd();
                 covers = JsonSerializer.Deserialize<List<VacationCover>>(serializedData);
             }
+            Logging.logger.Information("Loaded covers from json");
 
             return covers;
         }
@@ -96,6 +98,7 @@ namespace LomaPro
                 stackLayout.GestureRecognizers.Add(tapGestureRecognizer);
 
                 ImageStackPanel.Children.Add(stackLayout);
+                Logging.logger.Information("Cover created");
             }
         }
 
@@ -140,6 +143,7 @@ namespace LomaPro
                 }
 
                 MakeCover();
+                Logging.logger.Information("Cover deleted");
             }
         }
 

@@ -20,12 +20,14 @@ namespace LomaPro
             {
                 imageList = LoadImagesFromJson(exepath + jsonfile);
                 DrawImages();
+                Logging.logger.Information("Loaded images from json");
             }
             catch
             {
                 string galleriesFilepath = System.IO.Path.Combine(exepath, "galleries");
                 System.IO.Directory.CreateDirectory(galleriesFilepath);
                 SaveJsonToFile("", exepath + jsonfile);
+                Logging.logger.Information("No images found created new directory");
                 
             }
         }
@@ -76,6 +78,7 @@ namespace LomaPro
                         string jsonImages = JsonSerializer.Serialize(imageList, options);
                         string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                         SaveJsonToFile(jsonImages, exepath + jsonfile);
+                        Logging.logger.Information("Added image to json");
 
                         image.drawImage(galleryScrollView, ImageExpand, overlay, CloseButton);
                     }
@@ -85,6 +88,7 @@ namespace LomaPro
             catch (Exception ex)
             {
                 Console.WriteLine($"Exception: {ex}");
+                Console.WriteLine(ex.ToString());
             }
         }
         static void SaveJsonToFile(string jsonString, string path)
@@ -93,6 +97,7 @@ namespace LomaPro
             {
                 stream.WriteLine(jsonString);
             }
+            
         }
 
 

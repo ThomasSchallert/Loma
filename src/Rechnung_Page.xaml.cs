@@ -21,12 +21,15 @@ namespace LomaPro
 
                 groups = LoadgroupsFromJson(exepath + "/groups/groups.json");
                 UpdateUI();
+                Logging.logger.Information("Loaded groups from json");
             }
             catch
             {
                 string coverFilepath = System.IO.Path.Combine(exepath, "groups");
                 System.IO.Directory.CreateDirectory(coverFilepath);
                 SaveJsonToFile("", exepath + "/groups/groups.json");
+                Logging.logger.Information("No groups found created new directory");
+                
             }
         }
 
@@ -111,6 +114,7 @@ namespace LomaPro
             {
                 stream.WriteLine(jsonString);
             }
+            Logging.logger.Information("Saved groups to json");
         }
     }
 }
