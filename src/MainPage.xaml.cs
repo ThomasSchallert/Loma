@@ -133,11 +133,17 @@ namespace LomaPro
                 string filename = CleanFileName(cover.Title + "_" + cover.StartDate.ToShortDateString() + " - " + cover.EndDate.ToShortDateString() + "_" + cover.Location);
                 string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 string jsonFilePath = exepath + "/galleries/" + filename + ".json";
+                string jsonFilePath2 = exepath + "/groups/" + filename + "_group.json";
+                string jsonFilePath3 = exepath + "/artikel/" + filename + "_artikel.json";
 
                 if (File.Exists(jsonFilePath))
                 {
                     File.Delete(jsonFilePath);
+                    File.Delete(jsonFilePath2);
+                    File.Delete(jsonFilePath3);
                     Logging.logger.Information("Gallery deleted");
+                    Logging.logger.Information("Group deleted");
+                    Logging.logger.Information("Articel deleted");
                 }
 
                 vacationCoversList.RemoveAt(x);
