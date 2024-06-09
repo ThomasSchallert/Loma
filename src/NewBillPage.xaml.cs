@@ -11,7 +11,7 @@ namespace LomaPro;
 public partial class NewBillPage : ContentPage
 {
     public List<Group> groups = new List<Group>();
-
+    private List<BillGroup> billGroups;
     public NewBillPage()
     {
         InitializeComponent();
@@ -78,7 +78,8 @@ public partial class NewBillPage : ContentPage
         int howmany = 0;
         try
         {
-            gesamtpreis = Convert.ToDouble(BetragEntry.Text);        }
+            gesamtpreis = Convert.ToDouble(BetragEntry.Text);
+        }
         catch (Exception ex)
         {
             Logging.logger.Error(ex, "Invalid datatype.");
@@ -86,10 +87,10 @@ public partial class NewBillPage : ContentPage
             return;
         }
 
-        foreach (var group in groups)
+        foreach (var billGroup in billGroups)
         {
-            group.SelectedIndex = group.picker.SelectedIndex;
-            howmany += group.picker.SelectedIndex;
+            billGroup.SelectedIndex = billGroup.picker.SelectedIndex;
+            howmany += billGroup.picker.SelectedIndex;
         }
 
         if (howmany == 0)
@@ -101,22 +102,32 @@ public partial class NewBillPage : ContentPage
 
         double personhastopay = gesamtpreis / howmany;
         double payed = 0;
-        foreach (var group in groups)
+        foreach (var billGroup in billGroups)
         {
-            group.HasToPay += Math.Round((group.picker.SelectedIndex) * personhastopay, 2);
-            int index = group.picker.SelectedIndex;
-            payed += Math.Round((group.picker.SelectedIndex) * personhastopay, 2);
+            billGroup.HasToPay += Math.Round((billGroup.picker.SelectedIndex) * personhastopay, 2);
+            int index = billGroup.picker.SelectedIndex;
+            payed += Math.Round((billGroup.picker.SelectedIndex) * personhastopay, 2);
+
+            if (billGroup.Name == billGroup.PayerPicker.SelectedItem.ToString())
+            {
+                billGroup.PaidAmount += gesamtpreis;
+            }
+            else
+            {
+                billGroup.PaidAmount -= Math.Round((billGroup.picker.SelectedIndex) * personhastopay, 2);
+            }
         }
 
         if (payed != gesamtpreis)
         {
             Random random = new Random();
-            groups[random.Next(groups.Count)].HasToPay += gesamtpreis - payed;
+            billGroups[random.Next(billGroups.Count)].HasToPay += gesamtpreis - payed;
             Logging.logger.Warning("Adjustment made for rounding differences.");
         }
 
         await Navigation.PopAsync();
     }
+
 
     private async void OnCancelClicked(object sender, EventArgs e)
     {
