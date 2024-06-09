@@ -4,39 +4,39 @@
              x:Class="LomaPro.NewBillPage"
              Title="Ausgabe Hinzufügen">
     <ScrollView>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-        <StackLayout Grid.Row="0" Margin="20">
-            <Label Text="Bezeichnung" />
-            <Entry x:Name="BezeichnungEntry" Placeholder="Bezeichnung eingeben" IsEnabled="True" IsReadOnly="False"/>
-        </StackLayout>
-
-        <StackLayout Grid.Row="1" Margin="20">
-            <Label Text="Betrag" />
-            <Entry x:Name="BetragEntry" Placeholder="Betrag eingeben" Keyboard="Numeric" IsEnabled="True" IsReadOnly="False"/>
-        </StackLayout>
-
-        <ScrollView Grid.Row="2">
-            <StackLayout x:Name="GroupStackLayout" Margin="10">
+            <StackLayout Grid.Row="0" Margin="20">
+                <Label Text="Bezeichnung" />
+                <Entry x:Name="BezeichnungEntry" Placeholder="Bezeichnung eingeben" IsEnabled="True" IsReadOnly="False"/>
             </StackLayout>
-        </ScrollView>
 
-        <Grid Grid.Row="4" Margin="10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+            <StackLayout Grid.Row="1" Margin="20">
+                <Label Text="Betrag" />
+                <Entry x:Name="BetragEntry" Placeholder="Betrag eingeben" Keyboard="Numeric" IsEnabled="True" IsReadOnly="False"/>
+            </StackLayout>
 
-            <Button Text="Cancel" Grid.Column="0" Margin="0,0,10,0" Clicked="OnCancelClicked" />
-            <Button Text="Ok" Grid.Column="1" Margin="10,0,0,0" Clicked="OnOkClicked"/>
+            <ScrollView Grid.Row="2">
+                <StackLayout x:Name="GroupStackLayout" Margin="10">
+                </StackLayout>
+            </ScrollView>
+
+            <Grid Grid.Row="4" Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button Text="Cancel" Grid.Column="0" Margin="0,0,10,0" Clicked="OnCancelClicked" />
+                <Button Text="Ok" Grid.Column="1" Margin="10,0,0,0" Clicked="OnOkClicked"/>
+            </Grid>
         </Grid>
-    </Grid>
     </ScrollView>
 </ContentPage>
