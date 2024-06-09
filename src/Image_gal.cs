@@ -62,6 +62,7 @@ namespace LomaPro
             });
 
             flexLayout.Children.Add(imageFrame);
+            Logging.logger.Information("Image added to gallery");
         }
 
         public void expandImage(Image expandImage, VisualElement blurElement, Button closeButton)

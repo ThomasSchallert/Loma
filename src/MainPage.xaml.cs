@@ -6,12 +6,13 @@ using Microsoft.Maui.Controls;
 using Microsoft.Maui.Graphics;
 using System.Text.Json;
 using System.Reflection;
-using System.IO;
+
 
 namespace LomaPro
 {
     public partial class MainPage : ContentPage
     {
+
         private int x = 0;
         private List<VacationCover> vacationCoversList = new List<VacationCover>();
 
@@ -21,204 +22,161 @@ namespace LomaPro
             string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             try
             {
-                Logging.logger.Information("Loading covers from JSON file.");
                 vacationCoversList = LoadCoversFromJson(exepath + "/covers/covers.json");
                 MakeCover();
             }
-            catch (Exception ex)
+            catch
             {
-                Logging.logger.Error(ex, "Failed to load covers, making new file");
                 string coverFilepath = System.IO.Path.Combine(exepath, "covers");
                 System.IO.Directory.CreateDirectory(coverFilepath);
                 SaveJsonToFile("", exepath + "/covers/covers.json");
+                Logging.logger.Information("No covers found created new directory");
             }
+
         }
+
 
         static List<VacationCover> LoadCoversFromJson(string path)
         {
             List<VacationCover> covers = null;
-            try
+            using (StreamReader stream = new StreamReader(path))
             {
-                using (StreamReader stream = new StreamReader(path))
-                {
-                    string serializedData = stream.ReadToEnd();
-                    covers = JsonSerializer.Deserialize<List<VacationCover>>(serializedData);
-                    Logging.logger.Information("Loaded covers from JSON.", covers.Count);
-                }
+                string serializedData = stream.ReadToEnd();
+                covers = JsonSerializer.Deserialize<List<VacationCover>>(serializedData);
             }
-            catch (Exception ex)
-            {
-                Logging.logger.Error(ex, "Error loading covers from JSON file.");
-            }
+            Logging.logger.Information("Loaded covers from json");
+
             return covers;
         }
 
         private void MakeCover()
         {
-            try
-            {
-                ImageStackPanel.Children.Clear();
+            ImageStackPanel.Children.Clear();
 
-                if (vacationCoversList.Count > 0)
+            if (vacationCoversList.Count > 0)
+            {
+                var cover = vacationCoversList[x];
+                string jsonvacationcovers = JsonSerializer.Serialize(vacationCoversList);
+                string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                SaveJsonToFile(jsonvacationcovers, exepath + "/covers/covers.json");
+
+                var image = new Image
                 {
-                    var cover = vacationCoversList[x];
-                    string jsonvacationcovers = JsonSerializer.Serialize(vacationCoversList);
-                    string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                    SaveJsonToFile(jsonvacationcovers, exepath + "/covers/covers.json");
+                    Source = cover.Image_Path,
+                    Aspect = Aspect.AspectFit,
+                    VerticalOptions = LayoutOptions.FillAndExpand,
+                    HorizontalOptions = LayoutOptions.CenterAndExpand,
+                    BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent
+                };
+                var frame = new Frame
+                {
+                    Content = image,
+                    Margin = 10,
+                    CornerRadius = 10,
+                    Padding = 0,
+                    BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent,
+                    VerticalOptions = LayoutOptions.FillAndExpand,
+                    HorizontalOptions = LayoutOptions.CenterAndExpand
+                };
 
-                    var image = new Image
-                    {
-                        Source = cover.Image_Path,
-                        Aspect = Aspect.AspectFit,
-                        VerticalOptions = LayoutOptions.FillAndExpand,
-                        HorizontalOptions = LayoutOptions.CenterAndExpand,
-                        BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent
-                    };
-                    var frame = new Frame
-                    {
-                        Content = image,
-                        Margin = 10,
-                        CornerRadius = 10,
-                        Padding = 0,
-                        BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent,
-                        VerticalOptions = LayoutOptions.FillAndExpand,
-                        HorizontalOptions = LayoutOptions.CenterAndExpand
-                    };
+                var title = new Label { Text = cover.Title, FontSize = 20, TextColor = Microsoft.Maui.Graphics.Colors.White };
+                var year = new Label { Text = cover.StartDate.ToShortDateString() + " - " + cover.EndDate.ToShortDateString(), FontSize = 16, TextColor = Microsoft.Maui.Graphics.Colors.White };
+                var location = new Label { Text = cover.Location, FontSize = 16, TextColor = Microsoft.Maui.Graphics.Colors.White };
 
-                    var title = new Label { Text = cover.Title, FontSize = 20, TextColor = Microsoft.Maui.Graphics.Colors.White };
-                    var year = new Label { Text = cover.StartDate.ToShortDateString() + " - " + cover.EndDate.ToShortDateString(), FontSize = 16, TextColor = Microsoft.Maui.Graphics.Colors.White };
-                    var location = new Label { Text = cover.Location, FontSize = 16, TextColor = Microsoft.Maui.Graphics.Colors.White };
+                var stackLayout = new StackLayout
+                {
+                    Children = { frame, title, year, location },
+                    VerticalOptions = LayoutOptions.CenterAndExpand
+                };
+                var tapGestureRecognizer = new TapGestureRecognizer();
+                tapGestureRecognizer.Tapped += async (s, e) =>
+                {
+                    string filename = CleanFileName(cover.Title + "_" + cover.StartDate.ToShortDateString() + " - " + cover.EndDate.ToShortDateString() + "_" + cover.Location);
+                    var galleryPage = new Gallery("/galleries/" + filename + ".json");
+                    await Navigation.PushAsync(galleryPage);
+                };
+                stackLayout.GestureRecognizers.Add(tapGestureRecognizer);
 
-                    var stackLayout = new StackLayout
-                    {
-                        Children = { frame, title, year, location },
-                        VerticalOptions = LayoutOptions.CenterAndExpand
-                    };
-                    var tapGestureRecognizer = new TapGestureRecognizer();
-                    tapGestureRecognizer.Tapped += async (s, e) =>
-                    {
-                        string filename = CleanFileName(cover.Title + "_" + cover.StartDate.ToShortDateString() + " - " + cover.EndDate.ToShortDateString() + "_" + cover.Location);
-                        var galleryPage = new Gallery("/galleries/" + filename + ".json");
-                        await Navigation.PushAsync(galleryPage);
-                    };
-                    stackLayout.GestureRecognizers.Add(tapGestureRecognizer);
-
-                    ImageStackPanel.Children.Add(stackLayout);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logging.logger.Error(ex, "Error creating cover in UI.");
+                ImageStackPanel.Children.Add(stackLayout);
+                Logging.logger.Information("Cover created");
             }
         }
 
+
+
         private void LeftButtonClicked(object sender, EventArgs e)
         {
-            try
+            if (x > 0)
             {
-                if (x > 0)
-                {
-                    x--;
-                    MakeCover();
-                }
-            }
-            catch (Exception ex)
-            {
-                Logging.logger.Error(ex, "Error handling left button click.");
+                x--;
+                MakeCover();
             }
         }
 
         private void RightButtonClicked(object sender, EventArgs e)
         {
-            try
+            if (x < vacationCoversList.Count - 1)
             {
-                if (x < vacationCoversList.Count - 1)
-                {
-                    x++;
-                    MakeCover();
-                }
-            }
-            catch (Exception ex)
-            {
-                Logging.logger.Error(ex, "Error handling right button click.");
+                x++;
+                MakeCover();
             }
         }
 
         private void DeleteHolidayButtonClicked(object sender, EventArgs e)
         {
-            try
+            if (vacationCoversList.Count > 0)
             {
-                if (vacationCoversList.Count > 0)
+                var cover = vacationCoversList[x];
+                string filename = CleanFileName(cover.Title + "_" + cover.StartDate.ToShortDateString() + " - " + cover.EndDate.ToShortDateString() + "_" + cover.Location);
+                string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                string jsonFilePath = exepath + "/galleries/" + filename + ".json";
+
+                if (File.Exists(jsonFilePath))
                 {
-                    var cover = vacationCoversList[x];
-                    string filename = CleanFileName(cover.Title + "_" + cover.StartDate.ToShortDateString() + " - " + cover.EndDate.ToShortDateString() + "_" + cover.Location);
-                    string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                    string jsonFilePath = exepath + "/galleries/" + filename + ".json";
-
-                    if (File.Exists(jsonFilePath))
-                    {
-                        File.Delete(jsonFilePath);
-                    }
-
-                    vacationCoversList.RemoveAt(x);
-                    if (x >= vacationCoversList.Count && x > 0)
-                    {
-                        x = vacationCoversList.Count - 1;
-                    }
-
-                    MakeCover();
+                    File.Delete(jsonFilePath);
                 }
-            }
-            catch (Exception ex)
-            {
-                Logging.logger.Error(ex, "Error deleting holiday.");
+
+                vacationCoversList.RemoveAt(x);
+                if (x >= vacationCoversList.Count && x > 0)
+                {
+                    x = vacationCoversList.Count - 1;
+                }
+
+                MakeCover();
+                Logging.logger.Information("Cover deleted");
             }
         }
 
+
+        //private async void AddHolidayButtonClicked(object sender, EventArgs e)
+        //    {
+        //        var addHolidayPage = new Add_Holiday();
+        //        await Navigation.PushAsync(addHolidayPage);
+        //        var result = await addHolidayPage.Tcs.Task;
+        //        vacationCoversList.Add(result);
+        //        MakeCover();
+        //    }
         private async void AddHolidayButtonClicked(object sender, EventArgs e)
         {
-            try
-            {
-                var addHolidayPage = new Rechnung_Page();
-                await Navigation.PushAsync(addHolidayPage);
-            }
-            catch (Exception ex)
-            {
-                Logging.logger.Error(ex, "Error getting to the Holiday page.");
-            }
+            var addHolidayPage = new Rechnung_Page();
+            await Navigation.PushAsync(addHolidayPage);
         }
 
         public static string CleanFileName(string input)
         {
-            try
+            string invalidChars = new string(System.IO.Path.GetInvalidFileNameChars());
+            string pattern = $"[{Regex.Escape(invalidChars)}]";
+            string result = Regex.Replace(input, pattern, "");
+            result = result.Replace(" ", "_");
+            return result;
+        }
+        static void SaveJsonToFile(string jsonString, string path)
+        {
+            using (StreamWriter stream = new StreamWriter(path, append: false))
             {
-                string invalidChars = new string(System.IO.Path.GetInvalidFileNameChars());
-                string pattern = $"[{Regex.Escape(invalidChars)}]";
-                string result = Regex.Replace(input, pattern, "");
-                result = result.Replace(" ", "_");
-                return result;
-            }
-            catch (Exception ex)
-            {
-                Logging.logger.Error(ex, "Error getting clean file name.");
-                throw;
+                stream.WriteLine(jsonString);
             }
         }
 
-        static void SaveJsonToFile(string jsonString, string path)
-        {
-            try
-            {
-                using (StreamWriter stream = new StreamWriter(path, append: false))
-                {
-                    stream.WriteLine(jsonString);
-                }
-                Logging.logger.Information($"JSON saved successfully to {path}.");
-            }
-            catch (Exception ex)
-            {
-                Logging.logger.Error(ex, $"Error saving JSON to {path}.");
-            }
-        }
     }
 }

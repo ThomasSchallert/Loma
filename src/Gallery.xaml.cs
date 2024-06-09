@@ -5,6 +5,8 @@ namespace LomaPro
 {
     public partial class Gallery : ContentPage
     {
+
+
         public List<Image_gal> imageList = new List<Image_gal>();
         private string jsonfile;
 
@@ -16,39 +18,31 @@ namespace LomaPro
             string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             try
             {
-                Logging.logger.Information("Loading images from JSON file.");
                 imageList = LoadImagesFromJson(exepath + jsonfile);
                 DrawImages();
+                Logging.logger.Information("Loaded images from json");
             }
-            catch (Exception ex)
+            catch
             {
-                Logging.logger.Error(ex, "Failed to load images, create new gallery file");
                 string galleriesFilepath = System.IO.Path.Combine(exepath, "galleries");
                 System.IO.Directory.CreateDirectory(galleriesFilepath);
                 SaveJsonToFile("", exepath + jsonfile);
+                Logging.logger.Information("No images found created new directory");
+                
             }
         }
-
         static List<Image_gal> LoadImagesFromJson(string path)
         {
             List<Image_gal> imageList = null;
-            try
+            using (StreamReader stream = new StreamReader(path))
             {
-                using (StreamReader stream = new StreamReader(path))
-                {
-                    string serializedData = stream.ReadToEnd();
-                    imageList = JsonSerializer.Deserialize<List<Image_gal>>(serializedData);
-                    Logging.logger.Information("Loaded images from JSON.", imageList.Count);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logging.logger.Error(ex, "Error loading images from JSON file.");
+                string serializedData = stream.ReadToEnd();
+                imageList = JsonSerializer.Deserialize<List<Image_gal>>(serializedData);
+
             }
 
             return imageList;
         }
-
         public void DrawImages()
         {
             foreach (Image_gal image in imageList)
@@ -56,6 +50,9 @@ namespace LomaPro
                 image.drawImage(galleryScrollView, ImageExpand, overlay, CloseButton);
             }
         }
+
+
+
 
         public async void addImage()
         {
@@ -74,39 +71,35 @@ namespace LomaPro
                         string filePath = result.FullPath;
                         string fileName = Path.GetFileName(filePath);
 
+
                         Image_gal image = new Image_gal("Description", filePath, fileName);
                         imageList.Add(image);
                         var options = new JsonSerializerOptions() { WriteIndented = true };
                         string jsonImages = JsonSerializer.Serialize(imageList, options);
                         string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                         SaveJsonToFile(jsonImages, exepath + jsonfile);
+                        Logging.logger.Information("Added image to json");
 
                         image.drawImage(galleryScrollView, ImageExpand, overlay, CloseButton);
                     }
+
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Exception: {ex}");
+                Console.WriteLine(ex.ToString());
             }
         }
-
         static void SaveJsonToFile(string jsonString, string path)
         {
-            try
+            using (StreamWriter stream = new StreamWriter(path, append: false))
             {
-                Logging.logger.Information("Saving JSON to file: {Path}", path);
-                using (StreamWriter stream = new StreamWriter(path, append: false))
-                {
-                    stream.WriteLine(jsonString);
-                }
-                Logging.logger.Information("JSON saved.");
+                stream.WriteLine(jsonString);
             }
-            catch (Exception ex)
-            {
-                Logging.logger.Error(ex, "Error saving JSON");
-            }
+            
         }
+
 
         private void AddImage_Button_Clicked(object sender, EventArgs e)
         {
