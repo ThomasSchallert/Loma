@@ -35,12 +35,7 @@
 | 06.06 | An der Aufteilung von Kosten unter verschienen Gruppen arbeiten|
 | 07.06 | Serialisierung der Gruppen & Kosten|
 | 08.06 | Logging |
-|          |          |
-|          |          |
-|          |          |
-|          |          |
-|          |          |
-|          |          |
+
 
 ### Merlin
 
@@ -49,15 +44,9 @@
 | 01.05 - 05.05 | Mainpage Grunddesign         |
 | 06.05 |   Add Holliday Page Design       |
 | 08.05 |   Mainpage Überarbeitung   |
-|          |          |
-|          |          |
-|          |          |
-|          |          |
-|          |          |
-|          |          |
-|          |          |
-|          |          |
-|          |          |
-|          |          |
-|          |          |
-|          |          |
+| 15.05  |  Add Holliday Updates        |
+| 25.05       |  Main Page Bug fix     |
+| 03.06    |   Autovervollständigund aber wegen Performance gelöscht       |
+|  04.06    |  Start von RechnungPage        |
+|  07.06      |  Ausbau     |
+|  09.06    |   Bugfixes Dokumentation    |
