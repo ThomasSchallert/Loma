@@ -57,6 +57,12 @@ Die `NewGroupPage` gibt dem Benutzer die Möglichkeit, eine neue Gruppe mit Name
 ### RechnungAnsehenPage.xaml:
 Sie besteht aus einem Grid, das in zwei Zeilen unterteilt ist. Die erste Zeile enthält eine ScrollView, in der die Gruppen dynamisch hinzugefügt werden. Die zweite Zeile enthält einen Button zum Schließen der Rechnung.
 
+### DeleteGroupPage.xmal & DeleteArtikelPage.xmal: 
+Diese XAML-Datei definiert das Layout der Seite. Es besteht aus einem Grid mit zwei Zeilen. Die erste Zeile enthält eine ListView, die die Gruppen anzeigt, die zur Löschung zur Verfügung stehen. Die zweite Zeile enthält zwei Buttons: "Cancel" und "Delete". Die ListView ist an die Groups-Eigenschaft gebunden und das ausgewählte Element ist an die SelectedGroup-Eigenschaft gebunden.
+### DeleteGroupPage.xaml.cs & DeleteArtikelPage.xmal.cs: 
+Sie definiert auch ein Event GroupDeleted, das ausgelöst wird, wenn eine Gruppe gelöscht wird.
+Die Methode CancelButton_Clicked wird aufgerufen, wenn der Benutzer auf den Abbrechen-Button klickt. Sie schließt die aktuelle Seite und kehrt zur vorherigen Seite zurück. Die Methode DeleteButton_Clicked wird aufgerufen, wenn der Benutzer auf den Löschen-Button klickt. Sie überprüft, ob eine Gruppe ausgewählt wurde, und fragt den Benutzer dann zur Bestätigung, ob die ausgewählte Gruppe gelöscht werden soll. Wenn der Benutzer bestätigt, wird die Gruppe aus der Liste entfernt, das GroupDeleted-Event ausgelöst und die Seite geschlossen. Wenn keine Gruppe ausgewählt wurde, wird eine Fehlermeldung angezeigt.
+
 ## Probleme und Lösung
 
 | Problem | Lösung |
