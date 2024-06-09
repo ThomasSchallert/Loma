@@ -91,8 +91,8 @@ namespace LomaPro
                 var tapGestureRecognizer = new TapGestureRecognizer();
                 tapGestureRecognizer.Tapped += async (s, e) =>
                 {
-                    string filename = CleanFileName(cover.Title + "_" + cover.StartDate.ToShortDateString() + " - " + cover.EndDate.ToShortDateString() + "_" + cover.Location);
-                    var galleryPage = new Gallery("/galleries/" + filename + ".json");
+                    string filename = CleanFileName(cover.Title + "_" + cover.StartDate.ToShortDateString() + "-" + cover.EndDate.ToShortDateString() + "_" + cover.Location);
+                    var galleryPage = new Gallery("/galleries/" + filename + ".json", filename);
                     await Navigation.PushAsync(galleryPage);
                 };
                 stackLayout.GestureRecognizers.Add(tapGestureRecognizer);
@@ -153,19 +153,15 @@ namespace LomaPro
         }
 
 
-        //private async void AddHolidayButtonClicked(object sender, EventArgs e)
-        //    {
-        //        var addHolidayPage = new Add_Holiday();
-        //        await Navigation.PushAsync(addHolidayPage);
-        //        var result = await addHolidayPage.Tcs.Task;
-        //        vacationCoversList.Add(result);
-        //        MakeCover();
-        //    }
         private async void AddHolidayButtonClicked(object sender, EventArgs e)
-        {
-            var addHolidayPage = new Rechnung_Page();
-            await Navigation.PushAsync(addHolidayPage);
-        }
+            {
+                var addHolidayPage = new Add_Holiday();
+                await Navigation.PushAsync(addHolidayPage);
+                var result = await addHolidayPage.Tcs.Task;
+                vacationCoversList.Add(result);
+                MakeCover();
+            }
+
 
         public static string CleanFileName(string input)
         {

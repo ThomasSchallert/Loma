@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LomaPro.DeleteGroupPage"
+             Title="Gruppe Löschen">
+    <ContentPage.Resources>
+        <Style TargetType="Frame">
+            <Setter Property="BorderColor" Value="#D3D3D3" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Padding" Value="10" />
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid Padding="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ListView x:Name="GroupsListView" Grid.Row="0" ItemsSource="{Binding Groups}" 
+                  SelectedItem="{Binding SelectedGroup}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Frame>
+                            <Label Text="{Binding Name}" FontSize="Medium" VerticalOptions="Center" />
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <StackLayout Grid.Row="1" Orientation="Horizontal" HorizontalOptions="Center" Margin="10">
+            <Button Text="Cancel" Clicked="CancelButton_Clicked" Margin="5" WidthRequest="150"/>
+            <Button Text="Delete" Clicked="DeleteButton_Clicked" Margin="5" WidthRequest="150"/>
+        </StackLayout>
+    </Grid>
+</ContentPage>

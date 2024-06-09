@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LomaPro.Gallery"
@@ -35,6 +36,14 @@
                 ZIndex="1"
                 Margin="0,0,0,20"
                 Clicked="AddImage_Button_Clicked" />
+        
+        <Button Text="Ausgaben verwalten"
+                Grid.Row="1"
+                HorizontalOptions="Center"
+                VerticalOptions="End"
+                Margin="0,0,0,70"
+                ZIndex="1"
+                Clicked="Go_To_Rechnung_Clicked"/>
 
         <Button x:Name="CloseButton"
                 Text="X"
@@ -46,7 +55,8 @@
                 TextColor="White"
                 ZIndex="2"
                 IsVisible="False" />
-    </Grid>
 
+
+    </Grid>
 
 </ContentPage>

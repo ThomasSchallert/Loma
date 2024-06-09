@@ -13,16 +13,17 @@ namespace LomaPro
         // Liste der Gruppen
         private List<Group> groups = new List<Group>();
         private List<Artikel> Articels = new List<Artikel>();
+        private string Name { get; set; }
 
-        public Rechnung_Page()
+        public Rechnung_Page(string name)
         {
+            Name = name;
             InitializeComponent();
             Logging.logger.Information("Rechnung Page opened");
             string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             try
             {
-
-                groups = LoadgroupsFromJson(exepath + "/groups/groups.json");
+                groups = LoadgroupsFromJson(exepath + $"/groups/{Name}_group.json");
                 UpdateUI();
                 Logging.logger.Information("Loaded groups from json");
             }
@@ -30,9 +31,21 @@ namespace LomaPro
             {
                 string coverFilepath = System.IO.Path.Combine(exepath, "groups");
                 System.IO.Directory.CreateDirectory(coverFilepath);
-                SaveJsonToFile("", exepath + "/groups/groups.json");
+                SaveJsonToFile("", exepath + $"/groups/{Name}_group.json");
                 Logging.logger.Information("No groups found created new directory");
-                
+            }
+            try
+            {
+
+                Articels = LoadarticelsFromJson(exepath + $"/artikel/{Name}_artikel.json");
+            }
+            catch
+            {
+                string artikelFilepath = System.IO.Path.Combine(exepath, "artikel");
+                System.IO.Directory.CreateDirectory(artikelFilepath);
+                SaveJsonToFile("", exepath + $"/artikel/{Name}_artikel.json");
+                Logging.logger.Information("No Artikels found created new directory");
+
             }
         }
 
@@ -50,7 +63,7 @@ namespace LomaPro
             GroupStackLayout.Children.Clear();
             string jsonvacationgroups = JsonSerializer.Serialize(groups);
             string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            SaveJsonToFile(jsonvacationgroups, exepath + "/groups/groups.json");
+            SaveJsonToFile(jsonvacationgroups, exepath + $"/groups/{Name}_group.json");
 
             foreach (var group in groups)
             {
@@ -92,22 +105,60 @@ namespace LomaPro
             newBillPage.Disappearing += async (s, args) =>
             {
                 groups = newBillPage.groups;
-                if (newBillPage.artikel != null) 
+                if (newBillPage.artikel.Name != "" && newBillPage.artikel.Price != 0) 
                 {
                     Articels.Add(newBillPage.artikel); 
                     Logging.logger.Information("Added Articel to list");
-                    }
-                
+                    string jsonartikel = JsonSerializer.Serialize(Articels);
+                    string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                    SaveJsonToFile(jsonartikel, exepath + $"/artikel/{Name}_artikel.json");
+
+                }
+
+
                 UpdateUI();
             };
             await Navigation.PushAsync(newBillPage);
         }
+        public async void Delete_Group(object sender, EventArgs e)
+        {
+            var deleteGroupPage = new DeleteGroupPage(groups);
+            deleteGroupPage.Disappearing += (s, args) =>
+            {
+                groups = deleteGroupPage.Groups;
+                UpdateUI();
+                string jsonvacationgroups = JsonSerializer.Serialize(groups);
+                string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                SaveJsonToFile(jsonvacationgroups, exepath + $"/groups/{Name}_group.json");
+            };
+            await Navigation.PushAsync(deleteGroupPage);
+        }
+
+        public async void Delete_Artikel(object sender, EventArgs e)
+        {
+            var deleteArtikelPage = new DeleteArtikelPage(Articels);
+            deleteArtikelPage.Disappearing += (s, args) =>
+            {
+                if (deleteArtikelPage.Artikels != null)
+                {
+                    Articels = deleteArtikelPage.Artikels.ToList();
+                    UpdateUI();
+                    string jsonvacationarticels = JsonSerializer.Serialize(groups);
+                    string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                    SaveJsonToFile(jsonvacationarticels, exepath + $"/artikel/{Name}_artikel.json");
+                };
+            };
+            await Navigation.PushAsync(deleteArtikelPage);
+        }
+
+
         public async void Show_Bill(object sender, EventArgs e)
         {
-            var rechnungAnsehenPage = new RechnungAnsehenPage();
+            var rechnungAnsehenPage = new RechnungAnsehenPage(Name);
             rechnungAnsehenPage.Articels = Articels;
             rechnungAnsehenPage.UpdateUI();
             await Navigation.PushAsync(rechnungAnsehenPage);
+
         }
         static List<Group> LoadgroupsFromJson(string path)
         {
@@ -127,7 +178,7 @@ namespace LomaPro
             {
                 stream.WriteLine(jsonString);
             }
-            Logging.logger.Information("Saved groups to json");
+            Logging.logger.Information("Saved to json");
         }
         public void calcDebts()
         {
@@ -137,6 +188,22 @@ namespace LomaPro
             {
                 
             }
+        }
+        static List<Artikel> LoadarticelsFromJson(string path)
+        {
+            List<Artikel> Articels = null;
+            using (StreamReader stream = new StreamReader(path))
+            {
+                string serializedData = stream.ReadToEnd();
+                Articels = JsonSerializer.Deserialize<List<Artikel>>(serializedData);
+            }
+            Logging.logger.Information("Loaded Articels from json");
+
+            return Articels;
+        }
+        public async void Rechnung_Schlieﬂen(object sender, EventArgs e)
+        {
+            await Navigation.PopAsync();
         }
 
     }

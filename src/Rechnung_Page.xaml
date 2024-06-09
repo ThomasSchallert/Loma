@@ -28,10 +28,10 @@
 
             <Button Text="Ausgabe hinzufügen" Grid.Column="0" Margin="0,0,10,0" Clicked="Add_Bill" />
             <Button Text="Ausgaben ansehen" Grid.Column="1" Margin="10,0,0,0" Clicked="Show_Bill" />
-            <Button Text="Ausgabe löschen" Grid.Column="2" Margin="10,0,0,0" />
-            <Button Text="Gruppe löschen" Grid.Column="3" Margin="10,0,0,0" />
+            <Button Text="Ausgabe löschen" Grid.Column="2" Margin="10,0,0,0" Clicked="Delete_Artikel"/>
+            <Button Text="Gruppe löschen" Grid.Column="3" Margin="10,0,0,0" Clicked="Delete_Group"/>
         </Grid>
 
-        <Button Text="Rechnung schließen" Grid.Row="2" HorizontalOptions="FillAndExpand" Margin="10" />
+        <Button Text="Rechnung schließen" Grid.Row="2" HorizontalOptions="FillAndExpand" Margin="10" Clicked="Rechnung_Schließen" />
     </Grid>
 </ContentPage>

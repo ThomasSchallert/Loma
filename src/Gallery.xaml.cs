@@ -9,9 +9,11 @@ namespace LomaPro
 
         public List<Image_gal> imageList = new List<Image_gal>();
         private string jsonfile;
+        private string Name;
 
-        public Gallery(string filename)
+        public Gallery(string filename, string name)
         {
+            Name = name;
             Logging.logger.Information("Gallery Page opened");
             this.jsonfile = filename;
             InitializeComponent();
@@ -119,6 +121,12 @@ namespace LomaPro
 
             CloseButton.IsVisible = false;
             Logging.logger.Information("Big image closed");
+        }
+        public async void Go_To_Rechnung_Clicked(object sender, EventArgs e)
+        {
+            var rechnungpage = new Rechnung_Page(Name);
+            await Navigation.PushAsync(rechnungpage);
+            Logging.logger.Information("Go to Rechnung clicked");
         }
     }
 }
