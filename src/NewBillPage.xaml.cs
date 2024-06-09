@@ -11,6 +11,8 @@ namespace LomaPro;
 public partial class NewBillPage : ContentPage
 {
     public List<Group> groups = new List<Group>();
+    public Artikel artikel = new Artikel();
+
     private List<BillGroup> billGroups;
     public NewBillPage()
     {
@@ -69,6 +71,8 @@ public partial class NewBillPage : ContentPage
 
             GroupStackLayout.Children.Add(frame);
         }
+        Logging.logger.Information("Updated UI");
+
     }
 
 
@@ -78,7 +82,10 @@ public partial class NewBillPage : ContentPage
         int howmany = 0;
         try
         {
-            gesamtpreis = Convert.ToDouble(BetragEntry.Text);
+            gesamtpreis = Convert.ToDouble(BetragEntry.Text); 
+            artikel.Name = BezeichnungEntry.Text;
+            artikel.Price = gesamtpreis;
+            Logging.logger.Information("articel created");
         }
         catch (Exception ex)
         {
@@ -97,6 +104,7 @@ public partial class NewBillPage : ContentPage
         {
             Logging.logger.Warning("No persons selected.");
             await DisplayAlert("Error", "Please select at least one person", "OK");
+            Logging.logger.Warning("No persons selected.");
             return;
         }
 
@@ -117,13 +125,16 @@ public partial class NewBillPage : ContentPage
                 billGroup.PaidAmount -= Math.Round((billGroup.picker.SelectedIndex) * personhastopay, 2);
             }
         }
+        Logging.logger.Information("Updated price");
 
         if (payed != gesamtpreis)
         {
             Random random = new Random();
+            groups[random.Next(groups.Count)].HasToPay += Math.Round(gesamtpreis - payed,2);
             billGroups[random.Next(billGroups.Count)].HasToPay += gesamtpreis - payed;
             Logging.logger.Warning("Adjustment made for rounding differences.");
         }
+        
 
         await Navigation.PopAsync();
     }
@@ -132,5 +143,6 @@ public partial class NewBillPage : ContentPage
     private async void OnCancelClicked(object sender, EventArgs e)
     {
         await Navigation.PopAsync();
+        Logging.logger.Information("Canceled");
     }
 }

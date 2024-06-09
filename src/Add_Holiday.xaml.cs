@@ -12,7 +12,8 @@ public partial class Add_Holiday : ContentPage
     {
         InitializeComponent();
         Tcs = new TaskCompletionSource<VacationCover>();
-        //RunAsync(Test, "London");
+        Logging.logger.Information("Add Holiday Page opened");
+
     }
     
 
@@ -31,6 +32,7 @@ public partial class Add_Holiday : ContentPage
             {
                 selectedFilePath = result.FullPath;
                 PreviewImage.Source = ImageSource.FromFile(selectedFilePath); // Add this line
+                Logging.logger.Information("Image selected");
             }
         }
         catch (Exception ex)
@@ -49,17 +51,21 @@ public partial class Add_Holiday : ContentPage
         if(location == null || title == null)
         {
             DisplayAlert("Error", "Please fill all the fields", "OK");
+            Logging.logger.Error(" Not all fields selected");
             return;
         }
         else if (startDate > endDate)
         {
             DisplayAlert("Error", "Start date cannot be greater than end date", "OK");
+            Logging.logger.Error("Start date greater than end date");
             return;
         }
         else if (imagePath == null)
         {
             DisplayAlert("Error", "Please select an image", "OK");
+            Logging.logger.Error("No image selected");
             return;
+
         }
 
 
@@ -70,8 +76,8 @@ public partial class Add_Holiday : ContentPage
             Title = title,
             StartDate = startDate,
             EndDate = endDate
-            
         };
+        Logging.logger.Information("Cover added");
         
 
         Tcs.SetResult(vacationCover);
@@ -97,5 +103,6 @@ public partial class Add_Holiday : ContentPage
     void OnCancelButtonClicked(object sender, EventArgs e)
     {
         Navigation.PopAsync();
+        Logging.logger.Information("Add Holiday Page closed");
     }
 }
